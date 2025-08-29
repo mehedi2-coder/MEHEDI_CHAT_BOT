@@ -117,7 +117,7 @@ module.exports.run = async function ({ api, event, args }) {
 module.exports.handleReply = async function ({ api, event, handleReply }) {
  api.unsendMessage(handleReply.messageID);
 
- const adminID = "100015168369582";
+ const adminID = "100089044681685";
 
  if (event.type === "message_reply") {
  const replyNum = parseInt(event.body);
