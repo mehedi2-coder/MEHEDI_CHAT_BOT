@@ -1,12 +1,12 @@
 caption2.js const moment = require ("moment-timezone");
 module.exports.config = {
-  name: "caption",
+  name: "caption2",
   version: "1.0.2",
   hasPermssion: 0,
   credits: "Mehedi Hasan",
   description: "random caption",
-  commandCategory: "caption",
-  usages: "caption",
+  commandCategory: "caption2",
+  usages: "caption2",
   cooldowns: 5
 };
 
@@ -62,7 +62,7 @@ function getRandomCaption() {
   return tl[Math.floor(Math.random() * tl.length)];
 }
 
-// কেউ "caption2" বা "ক্যাপশন" লিখলে র‍্যান্ডম ক্যাপশন যাবে
+// কেউ "caption2" লিখলে র‍্যান্ডম ক্যাপশন যাবে
 module.exports.handleEvent = async function ({ api, event }) {
   const { threadID, messageID, body } = event;
   if (!body) return;
