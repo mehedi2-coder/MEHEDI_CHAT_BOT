@@ -1,12 +1,12 @@
 const axios = require("axios");
-const simsim = "https://api.simsimi.net/v2"
+const simsim = "https://simsimi.cyberbot.top";
 
 module.exports.config = {
  name: "baby",
- version: "1.0.1",
+ version: "1.0.3",
  hasPermssion: 0,
  credits: "ULLASH",
- description: "Cute AI Baby Chatbot  | Talk, Teach & Chat with Emotion ☢️",
+ description: "Cute AI Baby Chatbot | Talk, Teach & Chat with Emotion ☢️",
  commandCategory: "simsim",
  usages: "[message/query]",
  cooldowns: 0,
@@ -37,7 +37,7 @@ module.exports.run = async function ({ api, event, args, Users }) {
  if (["remove", "rm"].includes(args[0])) {
  const parts = query.replace(/^(remove|rm)\s*/, "").split(" - ");
  if (parts.length < 2)
- return api.sendMessage("❌ | Use: remove [Question] - [Reply]", event.threadID, event.messageID);
+ return api.sendMessage(" | Use: remove [Question] - [Reply]", event.threadID, event.messageID);
 
  const [ask, ans] = parts;
  const res = await axios.get(`${simsim}/delete?ask=${encodeURIComponent(ask)}&ans=${encodeURIComponent(ans)}`);
@@ -48,7 +48,7 @@ module.exports.run = async function ({ api, event, args, Users }) {
  const res = await axios.get(`${simsim}/list`);
  if (res.data.code === 200) {
  return api.sendMessage(
- `🤖 Total Questions Learned: ${res.data.totalQuestions}\n💬 Total Replies Stored: ${res.data.totalReplies}\n📚 Developer: ${res.data.author}`,
+ `♾ Total Questions Learned: ${res.data.totalQuestions}\n★ Total Replies Stored: ${res.data.totalReplies}\n☠︎︎ Developer: ${res.data.author}`,
  event.threadID,
  event.messageID
  );
@@ -60,7 +60,7 @@ module.exports.run = async function ({ api, event, args, Users }) {
  if (args[0] === "edit") {
  const parts = query.replace("edit ", "").split(" - ");
  if (parts.length < 3)
- return api.sendMessage("❌ | Use: edit [Question] - [OldReply] - [NewReply]", event.threadID, event.messageID);
+ return api.sendMessage(" | Use: edit [Question] - [OldReply] - [NewReply]", event.threadID, event.messageID);
 
  const [ask, oldReply, newReply] = parts;
  const res = await axios.get(`${simsim}/edit?ask=${encodeURIComponent(ask)}&old=${encodeURIComponent(oldReply)}&new=${encodeURIComponent(newReply)}`);
@@ -70,11 +70,11 @@ module.exports.run = async function ({ api, event, args, Users }) {
  if (args[0] === "teach") {
  const parts = query.replace("teach ", "").split(" - ");
  if (parts.length < 2)
- return api.sendMessage("❌ | Use: teach [Question] - [Reply]", event.threadID, event.messageID);
+ return api.sendMessage(" | Use: teach [Question] - [Reply]", event.threadID, event.messageID);
 
  const [ask, ans] = parts;
  const res = await axios.get(`${simsim}/teach?ask=${encodeURIComponent(ask)}&ans=${encodeURIComponent(ans)}&senderID=${uid}&senderName=${encodeURIComponent(senderName)}`);
- return api.sendMessage(`✅ ${res.data.message || "Reply added successfully!"}`, event.threadID, event.messageID);
+ return api.sendMessage(`${res.data.message || "Reply added successfully!"}`, event.threadID, event.messageID);
  }
 
  const res = await axios.get(`${simsim}/simsimi?text=${encodeURIComponent(query)}&senderName=${encodeURIComponent(senderName)}`);
@@ -97,7 +97,7 @@ module.exports.run = async function ({ api, event, args, Users }) {
  }
  } catch (err) {
  console.error(err);
- return api.sendMessage(`❌ | Error in baby command: ${err.message}`, event.threadID, event.messageID);
+ return api.sendMessage(`| Error in baby command: ${err.message}`, event.threadID, event.messageID);
  }
 };
 
@@ -123,11 +123,12 @@ module.exports.handleReply = async function ({ api, event, Users, handleReply })
  }
  resolve();
  }, event.messageID);
- });
+ }
+ );
  }
  } catch (err) {
  console.error(err);
- return api.sendMessage(`❌ | Error in handleReply: ${err.message}`, event.threadID, event.messageID);
+ return api.sendMessage(` | Error in handleReply: ${err.message}`, event.threadID, event.messageID);
  }
 };
 
@@ -136,13 +137,14 @@ module.exports.handleEvent = async function ({ api, event, Users }) {
  const raw = event.body ? event.body.toLowerCase().trim() : "";
  if (!raw) return;
  const senderName = await Users.getNameUser(event.senderID);
+ const senderID = event.senderID;
 
  if (
  raw === "baby" || raw === "bot" || raw === "bby" ||
- raw === "jan" || raw === "xan" || raw === "বেপি" || raw === "বট" || raw === "বেবি"
+ raw === "jan" || raw === "xan" || raw === "জান" || raw === "বট" || raw === "বেবি"
  ) {
  const greetings = [
-"বেশি bot Bot করলে leave নিবো কিন্তু😒😒",
+ "বেশি bot Bot করলে leave নিবো কিন্তু😒😒",
  "শুনবো না😼 তুমি আমার বস মেহেদী কে প্রেম করাই দাও নাই🥺 পচা তুমি🥺",
  "আমি আবাল দের সাথে কথা বলি না,ok😒",
  "এতো ডেকো না,প্রেম এ পরে যাবো তো🙈",
@@ -238,9 +240,19 @@ module.exports.handleEvent = async function ({ api, event, Users }) {
  "কি'রে গ্রুপে দেখি একটাও বেডি নাই-🤦‍🥱💦",
  "-দেশের সব কিছুই চুরি হচ্ছে-🙄-শুধু আমার বস মেহেদী'র মনটা ছাড়া-🥴😑😏",
  "-🫵তোমারে প্রচুর ভাল্লাগে-😽-সময় মতো প্রপোজ করমু বুঝছো-🔨😼-ছিট খালি রাইখো- 🥱🐸🥵",
- "-আজ থেকে আর কাউকে পাত্তা দিমু না -!😏-কারণ আমি ফর্সা হওয়ার ক্রিম কিনছি -!🙂🐸"];
+ "-আজ থেকে আর কাউকে পাত্তা দিমু না -!😏-কারণ আমি ফর্সা হওয়ার ক্রিম কিনছি -!🙂🐸"
+];
  const randomReply = greetings[Math.floor(Math.random() * greetings.length)];
- return api.sendMessage(randomReply, event.threadID, (err, info) => {
+
+ const mention = {
+ body: `${randomReply} @${senderName}`,
+ mentions: [{
+ tag: `@${senderName}`,
+ id: senderID
+ }]
+ };
+
+ return api.sendMessage(mention, event.threadID, (err, info) => {
  if (!err) {
  global.client.handleReply.push({
  name: module.exports.config.name,
@@ -249,7 +261,7 @@ module.exports.handleEvent = async function ({ api, event, Users }) {
  type: "simsimi"
  });
  }
- });
+ }, event.messageID);
  }
 
  if (
@@ -283,6 +295,6 @@ module.exports.handleEvent = async function ({ api, event, Users }) {
  }
  } catch (err) {
  console.error(err);
- return api.sendMessage(`❌ | Error in handleEvent: ${err.message}`, event.threadID, event.messageID);
+ return api.sendMessage(`| Error in handleEvent: ${err.message}`, event.threadID, event.messageID);
  }
 };
