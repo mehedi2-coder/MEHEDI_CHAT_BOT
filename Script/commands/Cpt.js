@@ -22,8 +22,8 @@ module.exports.run = async function({ api, event }) {
   // Random welcome messages
   const messages = [
     "🌸Assalamu Alaikum 🌸",
-    "🌺 Thanks you so much for using Mehedi Hasan's Bot ❤️‍🩹",
-    "😻 Hope you all enjoy your group ❤️‍🩹",
+    "🌺 Thank you so much for using 𝐌𝐞𝐡𝐞𝐝𝐢 𝐂𝐡𝐚𝐭 𝐁𝐨𝐭 ❤️‍🩹",
+    "😻 Hope everyone enjoys using this bot❤️‍🩹",
     "☢️To view any command 📌\n/Help\n/Bot\n/Info"
   ];
 
