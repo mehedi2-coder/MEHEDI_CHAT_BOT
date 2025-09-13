@@ -324,8 +324,37 @@ const botReplies = [
 
 ╰•┄┅═══❁🕯️❁═══┅┄•╯
 
-•—»✨ 𝐌𝐞𝐡𝐞𝐝𝐢 𝐇𝐚𝐬𝐚𝐧 ✨«—•`
+•—»✨ 𝐌𝐞𝐡𝐞𝐝𝐢 𝐇𝐚𝐬𝐚𝐧 ✨«—•
 
+];
+
+// Random images (hosted on imgur)
+  const images = [ 
+"https://i.imgur.com/o6OwL71.jpeg",
+"https://i.imgur.com/j8KWJPc.jpeg",
+"https://i.imgur.com/1tzl381.jpeg",
+"https://i.imgur.com/pT2UUe1.jpeg",
+"https://i.imgur.com/aWWU13H.jpeg",
+"https://i.imgur.com/bi0UsSd.jpeg",
+"https://i.imgur.com/shHv3vC.jpeg,
+"https://i.imgur.com/xaOUdda.jpeg",
+"https://i.imgur.com/JOF3gpS.jpeg",
+"https://i.imgur.com/QaUCNjc.jpeg",
+"https://i.imgur.com/cIsK2mt.jpeg",
+"https://i.imgur.com/BzP5GLE.jpeg",
+"https://i.imgur.com/Om8CmHX.jpeg",
+"https://i.imgur.com/l5ANMhc.jpeg",
+"https://i.imgur.com/YJst2oE.jpeg",
+"https://i.imgur.com/WEX0spX.jpeg",
+"https://i.imgur.com/Ebo7j4c.jpeg",
+"https://i.imgur.com/AG1JLAH.jpeg",
+"https://i.imgur.com/rnYShxr.jpeg",
+"https://i.imgur.com/K7V8iZo.jpeg",
+"https://i.imgur.com/gdVPT1p.jpeg",
+"https://i.imgur.com/qicdVc4.jpeg",
+"https://i.imgur.com/CPxLab9.jpeg",
+"https://i.imgur.com/1Y6MiXz.jpeg",
+"https://i.imgur.com/NmLzcBc.jpeg"
 ];
 
 module.exports.run = async function ({ api, event }) {
