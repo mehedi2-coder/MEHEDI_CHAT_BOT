@@ -1,6 +1,6 @@
 module.exports.config = {
   name: "security",
-  version: "1.2.0",
+  version: "1.0.0",
   hasPermssion: 2,
   credits: "Mehedi Hasan",
   description: "Remove users who use bad words instantly, warn spammers once then remove if repeated",
