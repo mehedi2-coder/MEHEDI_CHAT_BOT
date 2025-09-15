@@ -1,5 +1,5 @@
 module.exports.config = {
-  name: "security",
+ name: "security",
   version: "1.0.0",
   hasPermssion: 2,
   credits: "Mehedi Hasan",
