@@ -17,7 +17,7 @@ const BAD_WORDS = [
 ];
 
 const SPAM_THRESHOLD = 15;
-const SPAM_TIME_WINDOW = 5 * 60 * 1000; // 5 minutes
+const SPAM_TIME_WINDOW = 2 * 60 * 1000; // 2 minutes
 
 let userMessages = {}; 
 let spamWarnings = {}; // warning state
@@ -91,7 +91,7 @@ module.exports.handleEvent = async function ({ api, event }) {
     const now = Date.now();
     userMessages[threadID][senderID].push({ text: content, time: now });
 
-    // শুধুমাত্র শেষ 5 মিনিটের মেসেজ রাখবে
+    // শুধুমাত্র শেষ 2 মিনিটের মেসেজ রাখবে
     userMessages[threadID][senderID] = userMessages[threadID][senderID].filter(m => (now - m.time) <= SPAM_TIME_WINDOW);
 
     const msgs = userMessages[threadID][senderID];
