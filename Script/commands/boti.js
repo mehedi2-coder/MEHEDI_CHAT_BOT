@@ -62,11 +62,11 @@
   const _rand = m=>Math.floor(Math.random()*m);
 
   module.exports.config={
-    name:"bot",
-    version:"2.1.0",
+    name:"boti",
+    version:"1.0.0",
     hasPermission:0,
     credits:_decode(_0x64f3[0]),
-    description:"Random islamic reply with images when someone says Bot",
+    description:"Random islamic reply with images when someone says Boti",
     commandCategory:"Islamic",
     usages:"[Bot]",
     cooldowns:2
