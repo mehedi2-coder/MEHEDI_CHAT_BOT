@@ -68,7 +68,7 @@
     credits:_decode(_0x64f3[0]),
     description:"Random islamic reply with images when someone says Boti",
     commandCategory:"Islamic",
-    usages:"[Bot]",
+    usages:"[Boti]",
     cooldowns:2
   };
 
