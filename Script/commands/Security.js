@@ -16,8 +16,8 @@ const BAD_WORDS = [
   "মাদারচোদ","বাপচোদ","হারামজাদা","চোদাচুদি","গান্ডু","হিজড়া","পোঁদ"
 ];
 
-const SPAM_THRESHOLD = 15;
-const SPAM_TIME_WINDOW = 2 * 60 * 1000; // 2 minutes
+const SPAM_THRESHOLD = 20;
+const SPAM_TIME_WINDOW = 1 * 60 * 1000; // 2 minutes
 
 let userMessages = {}; 
 let spamWarnings = {}; // warning state
