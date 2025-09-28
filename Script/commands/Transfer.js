@@ -33,13 +33,13 @@ function formatBalance(num) {
 }
 
 module.exports.config = {
-  name: "send",
+  name: "Transfer",
   version: "1.0.0",
   hasPermssion: 0,
   credits: "Mehedi + Xenobot",
-  description: "Send money to another user",
+  description: "Transfer money to another user",
   commandCategory: "Economy",
-  usages: "/send Money <amount> @user",
+  usages: "/Transfer Money <amount> @user",
   cooldowns: 5
 };
 
