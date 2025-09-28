@@ -1,5 +1,5 @@
 const fs = require("fs");
-const path = __dirname + "/moneyData.json";
+const path = __dirname + "/coinxbalance.json";
 
 function loadData() {
     if (!fs.existsSync(path)) fs.writeFileSync(path, JSON.stringify({}));
