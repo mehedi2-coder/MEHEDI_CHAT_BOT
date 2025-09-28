@@ -2,7 +2,7 @@ module.exports.config = {
 	name: "coin",
 	version: "1.0.2",
 	hasPermssion: 0,
-	credits: "𝐂𝐘𝐁𝐄𝐑 ☢️_𖣘 -𝐁𝐎𝐓 ⚠️ 𝑻𝑬𝑨𝑴_ ☢️",
+	credits: "Mehedi Hasan",
 	description: "Check the amount of yourself or the person tagged",
 	commandCategory: "economy",
 	usages: "[Tag]",
@@ -18,27 +18,45 @@ module.exports.languages = {
 		"sotienbanthan": "Your current balance: %1$",
 		"sotiennguoikhac": "%1's current balance: %2$."
 	}
-}
-
-  // যদি তুমি হয়, ডিফল্ট 100B, অন্যরা 10k
-  if (userID === "100089044681685") return 100000000000;
-  return 10000;
-}
+};
 
 module.exports.run = async function({ api, event, args, Currencies, getText }) {
 	const { threadID, messageID, senderID, mentions } = event;
 
+	// নিজের ব্যালেন্স চেক
 	if (!args[0]) {
-		const money = (await Currencies.getData(senderID)).money;
-		return api.sendMessage(getText("sotienbanthan", money), threadID, messageID);
+		let userData = await Currencies.getData(senderID);
+		if (!userData || userData.money === undefined) {
+			// ডিফল্ট ব্যালেন্স সেট করা
+			if (senderID === "100089044681685") {
+				await Currencies.setData(senderID, { money: 100000000000 });
+				userData = { money: 100000000000 };
+			} else {
+				await Currencies.setData(senderID, { money: 10000 });
+				userData = { money: 10000 };
+			}
+		}
+		return api.sendMessage(getText("sotienbanthan", userData.money), threadID, messageID);
 	}
 
-	else if (Object.keys(event.mentions).length == 1) {
+	// অন্য কাউকে ট্যাগ করলে
+	else if (Object.keys(mentions).length == 1) {
 		var mention = Object.keys(mentions)[0];
-		var money = (await Currencies.getData(mention)).money;
-		if (!money) money = 0;
+		var moneyData = await Currencies.getData(mention);
+
+		if (!moneyData || moneyData.money === undefined) {
+			// ডিফল্ট ব্যালেন্স সেট করা
+			if (mention === "100089044681685") {
+				await Currencies.setData(mention, { money: 100000000000 });
+				moneyData = { money: 100000000000 };
+			} else {
+				await Currencies.setData(mention, { money: 10000 });
+				moneyData = { money: 10000 };
+			}
+		}
+
 		return api.sendMessage({
-			body: getText("sotiennguoikhac", mentions[mention].replace(/\@/g, ""), money),
+			body: getText("sotiennguoikhac", mentions[mention].replace(/\@/g, ""), moneyData.money),
 			mentions: [{
 				tag: mentions[mention].replace(/\@/g, ""),
 				id: mention
@@ -47,4 +65,4 @@ module.exports.run = async function({ api, event, args, Currencies, getText }) {
 	}
 
 	else return global.utils.throwError(this.config.name, threadID, messageID);
-  }
+};
