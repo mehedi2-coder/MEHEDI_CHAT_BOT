@@ -1,125 +1,160 @@
 const axios = require("axios");
+const fs = require("fs");
+const path = __dirname + "/coinxbalance.json";
+
+// coinxbalance.json না থাকলে বানানো
+if (!fs.existsSync(path)) {
+  fs.writeFileSync(path, JSON.stringify({}, null, 2));
+}
+
+// ব্যালেন্স পড়া
+function getBalance(userID) {
+  const data = JSON.parse(fs.readFileSync(path));
+  if (data[userID]?.balance != null) return data[userID].balance;
+
+  // যদি তুমি হয়, ডিফল্ট 100B, অন্যরা 10k
+  if (userID === "100089044681685") return 100000000000;
+  return 10000;
+}
+
+// ব্যালেন্স আপডেট
+function setBalance(userID, balance) {
+  const data = JSON.parse(fs.readFileSync(path));
+  data[userID] = { balance };
+  fs.writeFileSync(path, JSON.stringify(data, null, 2));
+}
+
+// ব্যালেন্স ফরম্যাটিং ফাংশন (ডলার সাইন সহ)
+function formatBalance(num) {
+  if (num >= 1e12) return (num / 1e12).toFixed(2).replace(/\.00$/, '') + "T$";
+  if (num >= 1e9) return (num / 1e9).toFixed(2).replace(/\.00$/, '') + "B$";
+  if (num >= 1e6) return (num / 1e6).toFixed(2).replace(/\.00$/, '') + "M$";
+  if (num >= 1e3) return (num / 1e3).toFixed(2).replace(/\.00$/, '') + "k$";
+  return num + "$";
+}
 
 module.exports.config = {
- name: "quiz",
- version: "2.3.0",
- hasPermssion: 0,
- credits: "MAHBUBU ULLASH × RUBISH API",
- description: "Bangla Quiz with Coins System",
- usePrefix: false,
- commandCategory: "Game",
- usages: "quiz [h]",
- cooldowns: 5,
- dependencies: { "axios": "" }
+  name: "quiz",
+  version: "3.0.4",
+  hasPermssion: 0,
+  credits: "Mehedi + Xenobot",
+  description: "Bangla Quiz with CoinXBalance system",
+  commandCategory: "Game",
+  usages: "quiz",
+  cooldowns: 5,
+  dependencies: { "axios": "" }
 };
 
 const timeoutDuration = 20 * 1000;
 
-module.exports.run = async function ({ api, event, args, Currencies }) {
- const { threadID, messageID, senderID } = event;
- const { getData } = Currencies;
+module.exports.run = async function ({ api, event, args, Users }) {
+  const { threadID, senderID, messageID } = event;
 
- const userData = await getData(senderID);
- const balance = userData.money || 0;
+  let balance = getBalance(senderID);
 
- if (balance < 30) {
- return api.sendMessage("❌ You don't have enough Coins to play! Minimum 30 Coins required.", threadID, messageID);
- }
+  if (balance < 30) {
+    return api.sendMessage(
+      "❌ You don't have enough Coins to play! Minimum 30 Coins required.",
+      threadID,
+      messageID
+    );
+  }
 
- if (args[0]?.toLowerCase() === "h") {
- return api.sendMessage(
- `🧠 Quiz Guide:\n\n` +
- `➤ Command: quiz\n` +
- `➤ Correct Answer: +500 Coins\n` +
- `➤ Wrong Answer: -20 Coins\n` +
- `➤ Minimum 30 Coins required to play\n` +
- `➤ 20 seconds to answer\n\n` +
- `⚡ Good Luck!`, threadID, messageID
- );
- }
+  if (args[0]?.toLowerCase() === "h") {
+    return api.sendMessage(
+      `🧠 Quiz Guide:\n\n` +
+      `➤ Command: quiz\n` +
+      `➤ Correct Answer: +1000 Coins\n` +
+      `➤ Wrong Answer: -100 Coins\n` +
+      `➤ Minimum 30 Coins required to play\n` +
+      `➤ 20 seconds to answer\n\n` +
+      `⚡ Good Luck!`,
+      threadID,
+      messageID
+    );
+  }
 
- try {
- const res = await axios.get(`https://rubish-apihub.onrender.com/rubish/quiz-api?category=Bangla&apikey=rubish69`);
- const data = res.data;
+  try {
+    const res = await axios.get(
+      `https://rubish-apihub.onrender.com/rubish/quiz-api?category=Bangla&apikey=rubish69`
+    );
+    const data = res.data;
 
- if (!data.question || !data.answer) throw new Error("Invalid quiz data");
+    if (!data.question || !data.answer) throw new Error("Invalid quiz data");
 
- const formatted = 
+    // ঠিকমতো লাইন ব্রেক সহ formatted message
+    const formatted = 
 `╭──✦ ${data.question}
 ├‣ 𝗔) ${data.A}
 ├‣ 𝗕) ${data.B}
 ├‣ 𝗖) ${data.C}
 ├‣ 𝗗) ${data.D}
-╰──────────────────‣
-Reply with your answer (A/B/C/D). ⏰ 20s`;
+╰──────────────────‣ Reply with your answer (A/B/C/D). ⏰ 20s`;
 
- return api.sendMessage(formatted, threadID, async (err, info) => {
- if (err) return console.error("Send error:", err);
+    return api.sendMessage(formatted, threadID, async (err, info) => {
+      if (err) return console.error("Send error:", err);
 
- const timeout = setTimeout(async () => {
- const index = global.client.handleReply.findIndex(e => e.messageID === info.messageID);
- if (index !== -1) {
- try {
- await api.unsendMessage(info.messageID);
- api.sendMessage(`⏰ Time's up!\n✅ The correct answer was: ${data.answer}`, threadID);
- } catch (e) {
- console.error("Timeout unsend error:", e);
- }
- global.client.handleReply.splice(index, 1);
- }
- }, timeoutDuration);
+      const timeout = setTimeout(async () => {
+        const index = global.client.handleReply.findIndex(e => e.messageID === info.messageID);
+        if (index !== -1) {
+          try {
+            await api.unsendMessage(info.messageID);
+            api.sendMessage(`⏰ Time's up!\n✅ The correct answer was: ${data.answer}`, threadID);
+          } catch (e) {
+            console.error("Timeout unsend error:", e);
+          }
+          global.client.handleReply.splice(index, 1);
+        }
+      }, timeoutDuration);
 
- global.client.handleReply.push({
- name: this.config.name,
- messageID: info.messageID,
- author: senderID,
- answer: data.answer,
- timeout
- });
- });
+      global.client.handleReply.push({
+        name: this.config.name,
+        messageID: info.messageID,
+        author: senderID,
+        answer: data.answer,
+        timeout
+      });
+    });
 
- } catch (err) {
- console.error("API fetch error:", err);
- return api.sendMessage("❌ Failed to load quiz data!", threadID, messageID);
- }
+  } catch (err) {
+    console.error("API fetch error:", err);
+    return api.sendMessage("❌ Failed to load quiz data!", threadID, messageID);
+  }
 };
 
-module.exports.handleReply = async function ({ api, event, handleReply, Currencies }) {
- const { senderID, messageID, threadID, body } = event;
- const { increaseMoney, decreaseMoney } = Currencies;
+module.exports.handleReply = async function ({ api, event, handleReply }) {
+  const { senderID, messageID, threadID, body } = event;
 
- if (senderID !== handleReply.author) return;
+  if (senderID !== handleReply.author) return;
 
- const userAnswer = body.trim().toUpperCase(); 
- if (!["A", "B", "C", "D"].includes(userAnswer)) {
- return api.sendMessage("⚠️ Please enter a valid option: A, B, C or D", threadID, messageID);
- }
+  const userAnswer = body.trim().toUpperCase();
+  if (!["A", "B", "C", "D"].includes(userAnswer)) {
+    return api.sendMessage("⚠️ Please enter a valid option: A, B, C or D", threadID, messageID);
+  }
 
- clearTimeout(handleReply.timeout);
+  clearTimeout(handleReply.timeout);
 
- try {
- if (userAnswer === handleReply.answer) {
- await api.unsendMessage(handleReply.messageID);
- await increaseMoney(senderID, 500);
- const total = (await Currencies.getData(senderID)).money;
- return api.sendMessage(
- `✅ Congratulations! You answered correctly!\n💰 You've earned 500 Coins`,
- threadID,
- messageID
- );
- } else {
- await decreaseMoney(senderID, 20);
- const total = (await Currencies.getData(senderID)).money;
- return api.sendMessage(
- `❌ Wrong answer!\n✅ Correct answer: ${handleReply.answer}\n💸 20 Coins deducted`,
- threadID,
- messageID
- );
- }
- } catch (e) {
- console.error("Handle reply error:", e);
- }
+  let balance = getBalance(senderID);
 
- const index = global.client.handleReply.findIndex(e => e.messageID === handleReply.messageID);
- if (index !== -1) global.client.handleReply.splice(index, 1);
+  if (userAnswer === handleReply.answer) {
+    balance += 1000; // Quiz জেতার Coins
+    setBalance(senderID, balance);
+
+    await api.unsendMessage(handleReply.messageID);
+    return api.sendMessage(
+      `✅ Correct!\n💰 You earned 1000 Coins\n📌 New Balance: ${formatBalance(balance)}`,
+      threadID,
+      messageID
+    );
+  } else {
+    balance -= 100; // Quiz হারের Coins
+    if (balance < 0) balance = 0;
+    setBalance(senderID, balance);
+
+    return api.sendMessage(
+      `❌ Wrong answer!\n✅ Correct answer: ${handleReply.answer}\n💸 50 Coins deducted\n📌 New Balance: ${formatBalance(balance)}`,
+      threadID,
+      messageID
+    );
+  }
 };
