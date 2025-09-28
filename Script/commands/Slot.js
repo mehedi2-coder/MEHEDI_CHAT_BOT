@@ -25,7 +25,12 @@ module.exports.run = async function({ api, event, args }) {
     const { senderID, threadID } = event;
     const data = loadData();
 
-    if (!data[senderID]) data[senderID] = { balance: 1000 }; // নতুন ইউজারের ডিফল্ট ব্যালেন্স
+      // যদি তুমি হয়, ডিফল্ট 100B, অন্যরা 10k
+  if (userID === "100089044681685") return 100000000000;
+  return 10000;
+}
+
+    if (!data[senderID]) data[senderID] = { balance: 10000 }; // নতুন ইউজারের ডিফল্ট ব্যালেন্স
 
     const bet = parseInt(args[0]);
     if (isNaN(bet) || bet <= 0) {
