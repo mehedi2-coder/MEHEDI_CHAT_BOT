@@ -20,6 +20,11 @@ module.exports.languages = {
 	}
 }
 
+  // যদি তুমি হয়, ডিফল্ট 100B, অন্যরা 10k
+  if (userID === "100089044681685") return 100000000000;
+  return 10000;
+}
+
 module.exports.run = async function({ api, event, args, Currencies, getText }) {
 	const { threadID, messageID, senderID, mentions } = event;
 
