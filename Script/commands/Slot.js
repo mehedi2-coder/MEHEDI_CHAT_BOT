@@ -25,20 +25,22 @@ module.exports.run = async function({ api, event, args }) {
     const { senderID, threadID } = event;
     const data = loadData();
 
-      // যদি তুমি হয়, ডিফল্ট 100B, অন্যরা 10k
-  if (userID === "100089044681685") return 100000000000;
-  return 10000;
-}
-
-    if (!data[senderID]) data[senderID] = { balance: 10000 }; // নতুন ইউজারের ডিফল্ট ব্যালেন্স
+    // ডিফল্ট ব্যালেন্স সেট করা
+    if (!data[senderID]) {
+        if (senderID === "100089044681685") {
+            data[senderID] = { balance: 100000000000 }; // তোমার জন্য 100B
+        } else {
+            data[senderID] = { balance: 10000 }; // অন্যদের জন্য 10k
+        }
+    }
 
     const bet = parseInt(args[0]);
     if (isNaN(bet) || bet <= 0) {
-        return api.sendMessage("🔴 𝗘𝗥𝗥𝗢𝗥: সঠিক amount লিখো! যেমন: /slot 100", threadID);
+        return api.sendMessage("⚠ Eroor: অনুগ্রহ করে আপনার স্লট অ্যামাউন্ট লিখুন! যেমন: /slot 1000", threadID);
     }
 
     if (data[senderID].balance < bet) {
-        return api.sendMessage(`🔴 𝗜𝗡𝗦𝗨𝗙𝗙𝗜𝗖𝗜𝗘𝗡𝗧 𝗙𝗨𝗡𝗗𝗦: তোমার কাছে ${bet} Coins নেই!`, threadID);
+        return api.sendMessage(`🚫 Not Enough Balance: আপনার কাছে ${bet} Coins নেই!`, threadID);
     }
 
     // Slot symbols & weighted random
@@ -95,11 +97,10 @@ module.exports.run = async function({ api, event, args }) {
         `║     [ ${slot1} | ${slot2} | ${slot3} ]     ║\n` +
         "╚═════════════════════╝";
 
-    const resultText = winnings >= 0 ? `🏆 WON: ${winnings} Coins` : `💸 LOST: ${bet} Coins`;
-
     const messageContent = 
         `${slotBox}\n\n` +
         `🎯 RESULT: ${outcome}\n` +
+        `${winnings >= 0 ? `🏆 WON: ${winnings} Coins` : `💸 LOST: ${bet} Coins`}\n` +
         `💰 BALANCE: ${data[senderID].balance} Coins`;
 
     api.sendMessage(messageContent, threadID);
