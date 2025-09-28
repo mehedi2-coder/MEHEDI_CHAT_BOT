@@ -19,44 +19,35 @@ module.exports.config = {
 };
 
 module.exports.run = async function({ api, event }) {
-  // Random welcome messages
+
   const messages = [
-    "🌸Assalamu Alaikum 🌸",
-    "🌺 Thank you so much for using 𝐌𝐞𝐡𝐞𝐝𝐢 𝐂𝐡𝐚𝐭 𝐁𝐨𝐭 ❤️‍🩹",
-    "😻 Hope everyone enjoys using this bot❤️‍🩹",
-    "☢️To view any command 📌\n/Help\n/Bot\n/Info"
+   `🌸 Assalamu Alaikum 🌸  
+    🌺 Thank you so much for using 𝐌𝐞𝐡𝐞𝐝𝐢 𝐂𝐡𝐚𝐭 𝐁𝐨𝐭 ❤️‍🩹 
+    😻 Hope everyone enjoys using this bot 🤖
+    ☢️ To view any command 📌\n/Help\n/Bot\n/Info`
   ];
 
   // Random images (hosted on imgur)
   const images = [
-    "https://i.imgur.com/X1OPkox.jpg",
-    "https://i.imgur.com/yT294WF.jpg",
-    "https://i.imgur.com/gUQTUkN.jpg",
-    "https://i.imgur.com/d9TRavK.jpg",
-    "https://i.imgur.com/3uW3OrW.jpg",
-    "https://i.imgur.com/4OVeflr.jpg",
-    "https://i.imgur.com/vr59gnp.jpg",
-    "https://i.imgur.com/nI6W6sM.jpg",
-    "https://i.imgur.com/niBV0ZV.jpg",
-    "https://i.imgur.com/fQZhwWg.jpg",
-    "https://i.imgur.com/2ProK0c.jpg",
-    "https://i.imgur.com/ObLm7Df.jpg",
-    "https://i.imgur.com/Cz6FnUs.jpg",
-    "https://i.imgur.com/CQTzXUN.jpg",
-    "https://i.imgur.com/KxkUNYJ.jpg",
-    "https://i.imgur.com/QIYO8lo.jpg",
-    "https://i.imgur.com/ETDkFyf.jpg",
-    "https://i.imgur.com/Rzj2lZw.jpg",
-    "https://i.imgur.com/inxiATH.jpg",
-    "https://i.imgur.com/UqfUP.jpg",
-    "https://i.imgur.com/SEIbs.jpg",
-    "https://i.imgur.com/aiZuT.jpg",
-    "https://i.imgur.com/KyRiU.jpg",
-    "https://i.imgur.com/rsngc.jpg",
-    "https://i.imgur.com/KyfHP.jpg",
-    "https://i.imgur.com/bSiNH.jpg",
-    "https://i.imgur.com/IVjkf.jpg",
-    "https://i.imgur.com/xXQIZ7U.jpg"
+"https://i.imgur.com/VYWYoaL.jpeg",
+"https://i.imgur.com/zVhhm2e.jpeg",
+"https://i.imgur.com/bJrDdmL.jpeg",
+"https://i.imgur.com/HjkckPR.jpeg",
+"https://i.imgur.com/oh3r048.jpeg",
+"https://i.imgur.com/UZJjZpN.jpeg",
+"https://i.imgur.com/GX77Jue.jpeg",
+"https://i.imgur.com/4HjcKF0.jpeg",
+"https://i.imgur.com/Wkdt8Wz.jpeg",
+"https://i.imgur.com/hQRjiA8.jpeg",
+"https://i.imgur.com/aknPTUi.jpeg",
+"https://i.imgur.com/Nq2XkAr.jpeg",
+"https://i.imgur.com/7LWMOZO.jpeg",
+"https://i.imgur.com/dJ4hwrs.jpeg",
+"https://i.imgur.com/Hi3EVrq.jpeg",
+"https://i.imgur.com/UFGHcmR.jpeg",
+"https://i.imgur.com/qUGxWMA.jpeg",
+"https://i.imgur.com/3jvSQ1w.jpeg",
+"https://i.imgur.com/hxaEZHm.jpeg"
   ];
 
   // Pick random message and image
