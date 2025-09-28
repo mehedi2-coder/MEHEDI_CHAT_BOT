@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 module.exports.config = {
-  name: "Prayertime",
+  name: "prayertime",
   version: "2.0.0",
   hasPermssion: 0,
   credits: "Mehedi & Xenobot",
