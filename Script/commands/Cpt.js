@@ -21,10 +21,13 @@ module.exports.config = {
 module.exports.run = async function({ api, event }) {
 
   const messages = [
-   `🌸 Assalamu Alaikum 🌸  
-    🌺 Thank you so much for using 𝐌𝐞𝐡𝐞𝐝𝐢 𝐂𝐡𝐚𝐭 𝐁𝐨𝐭 ❤️‍🩹 
-    😻 Hope everyone enjoys using this bot 🤖
-    ☢️ To view any command 📌\n/Help\n/Bot\n/Info`
+   `🌸 Assalamu Alaikum 🌸
+   
+🌺 Thank you so much for using 𝐌𝐞𝐡𝐞𝐝𝐢 𝐂𝐡𝐚𝐭 𝐁𝐨𝐭 ❤️‍🩹
+   
+😻 Hope everyone enjoys using this bot 🤖
+   
+☢️ To view any command 📌\n/Help\n/Bot\n/Info`
   ];
 
   // Random images (hosted on imgur)
@@ -61,7 +64,7 @@ module.exports.run = async function({ api, event }) {
     .on("close", () => {
       api.sendMessage(
         {
-          body: ` ${message} \n\n✨ From: Mehedi Hasan ✨`,
+          body: ` ${message} \n\n✨ 𝗖𝗿𝗲𝗮𝘁𝗼𝗿: 𝗠𝗲𝗵𝗲𝗱𝗶 𝗛𝗮𝘀𝗮𝗻 ✨`,
           attachment: fs.createReadStream(filePath)
         },
         event.threadID,
