@@ -1,28 +1,24 @@
 const fs = require("fs");
 const path = __dirname + "/coinxbalance.json";
 
-// coinxbalance.json না থাকলে বানানো
 if (!fs.existsSync(path)) {
   fs.writeFileSync(path, JSON.stringify({}, null, 2));
 }
 
-// ব্যালেন্স পড়া
 function getBalance(userID) {
   const data = JSON.parse(fs.readFileSync(path));
   if (data[userID]?.balance != null) return data[userID].balance;
 
-  if (userID === "100089044681685") return 10000000000; // তুমি 100B$
-  return 10000; // অন্যরা 10k$
+  if (userID === "100089044681685") return 10000000000;
+  return 10000;
 }
 
-// ব্যালেন্স আপডেট
 function setBalance(userID, balance) {
   const data = JSON.parse(fs.readFileSync(path));
   data[userID] = { balance };
   fs.writeFileSync(path, JSON.stringify(data, null, 2));
 }
 
-// ব্যালেন্স ফরম্যাটিং
 function formatBalance(num) {
   if (num >= 1e12) return (num / 1e12).toFixed(2).replace(/\.00$/, '') + "T$";
   if (num >= 1e9) return (num / 1e9).toFixed(2).replace(/\.00$/, '') + "B$";
@@ -33,7 +29,7 @@ function formatBalance(num) {
 
 module.exports.config = {
   name: "bet",
-  version: "1.1.0",
+  version: "1.0.0",
   hasPermssion: 0,
   credits: "Mehedi + Xenobot",
   description: "Place a bet: win 3x,4x,8x,20x,50x coins!",
@@ -55,14 +51,14 @@ module.exports.run = async function({ api, event, args }) {
   const multipliers = [3, 4, 8, 20, 50];
   const chosenMultiplier = multipliers[Math.floor(Math.random() * multipliers.length)];
 
-  const win = Math.random() < 0.5; // 50% chance
+  const win = Math.random() < 0.5; 
 
   if (win) {
     const winAmount = betAmount * chosenMultiplier;
     balance += winAmount;
     setBalance(senderID, balance);
     return api.sendMessage(
-      `🎉 You won the bet!\n💰 Bet: ${formatBalance(betAmount)}\n⚡ Multiplier: ${chosenMultiplier}x\n📌 New Balance: ${formatBalance(balance)}`,
+      `🎉 Congratulations! You won the bet!\n💰 Bet: ${formatBalance(betAmount)}\n⚡ Multiplier: ${chosenMultiplier}x\n📌 New Balance: ${formatBalance(balance)}`,
       threadID,
       messageID
     );
@@ -71,7 +67,7 @@ module.exports.run = async function({ api, event, args }) {
     if (balance < 0) balance = 0;
     setBalance(senderID, balance);
     return api.sendMessage(
-      `❌ You lost the bet!\n💰 Bet: ${formatBalance(betAmount)}\n📌 New Balance: ${formatBalance(balance)}`,
+      `Bad luck! You lost the bet!\n💰 Bet: ${formatBalance(betAmount)}\n📌 New Balance: ${formatBalance(balance)}`,
       threadID,
       messageID
     );
