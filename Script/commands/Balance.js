@@ -78,7 +78,7 @@ module.exports.run = async function ({ api, event, args, Users }) {
     const userName = await Users.getNameUser(senderID);
 
     return api.sendMessage(
-      `👤 𝗨𝘀𝗲𝗿 𝗜𝗻𝗳𝗼\n╭•┄┅═══❁💵❁═══┅┄•╮\n🆔 𝗡𝗮𝗺𝗲: ${userName}\n🅱 𝗠𝗮𝗶𝗻 𝗕𝗮𝗹𝗮𝗻𝗰𝗲: ${formatBalance(balance)}\n╰•┄┅═══❁💵❁═══┅┄•╯`,
+      `•—»✨ 𝗨𝘀𝗲𝗿 𝗜𝗻𝗳𝗼 ✨«—•\n╭•┄┅═══❁💵❁═══┅┄•╮\n🆔 𝗡𝗮𝗺𝗲: ${userName}\n🅱 𝗠𝗮𝗶𝗻 𝗕𝗮𝗹𝗮𝗻𝗰𝗲: ${formatBalance(balance)}\n╰•┄┅═══❁💵❁═══┅┄•╯`,
       threadID,
       messageID
     );
