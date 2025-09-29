@@ -1,20 +1,16 @@
 const fs = require("fs");
 const path = __dirname + "/coinxbalance.json";
 
-// coinxbalance.json না থাকলে বানানো
 if (!fs.existsSync(path)) fs.writeFileSync(path, JSON.stringify({}, null, 2));
 
-// ব্যালেন্স ও level পড়া
 function loadData() {
   return JSON.parse(fs.readFileSync(path));
 }
 
-// ডাটা সেভ করা
 function saveData(data) {
   fs.writeFileSync(path, JSON.stringify(data, null, 2));
 }
 
-// level calculate (exp থেকে)
 function expToLevel(exp) {
   if (!exp || exp < 0) return 0;
   return Math.floor((Math.sqrt(1 + (4 * exp) / 3) + 1) / 2);
