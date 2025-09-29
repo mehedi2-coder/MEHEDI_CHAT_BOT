@@ -29,9 +29,9 @@ function formatBalance(num) {
 
 module.exports.config = {
   name: "balance",
-  version: "3.0.2",
+  version: "1.0.1",
   hasPermssion: 0,
-  credits: "Mehedi + Xenobot",
+  credits: "𝐌𝐞𝐡𝐞𝐝𝐢 𝐇𝐚𝐬𝐚𝐧",
   description: "Check your coin balance & Transfer Coins",
   commandCategory: "Economy",
   usages: "balance /transfer <@user> <amount>",
@@ -78,7 +78,7 @@ module.exports.run = async function ({ api, event, args, Users }) {
     const userName = await Users.getNameUser(senderID);
 
     return api.sendMessage(
-      `🏦 𝗨𝘀𝗲𝗿 𝗜𝗻𝗳𝗼\n━━━━━━━━━━━━━━\n👤 𝗡𝗮𝗺𝗲: ${userName}\n💰 𝗖𝘂𝗿𝗿𝗲𝗻𝘁 𝗕𝗮𝗹𝗮𝗻𝗰𝗲: ${formatBalance(balance)}\n━━━━━━━━━━━━━━`,
+      `🏦 𝗨𝘀𝗲𝗿 𝗜𝗻𝗳𝗼\n╭•┄┅═══❁💵❁═══┅┄•╮\n🗣 𝗡𝗮𝗺𝗲: ${userName}\n💳 𝗖𝘂𝗿𝗿𝗲𝗻𝘁 𝗕𝗮𝗹𝗮𝗻𝗰𝗲: ${formatBalance(balance)}\n╰•┄┅═══❁💵❁═══┅┄•╯`,
       threadID,
       messageID
     );
