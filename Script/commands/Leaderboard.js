@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = __dirname + "/coinxbalance.json";
 
-// ফাইল না থাকলে বানানো
 if (!fs.existsSync(path)) {
     fs.writeFileSync(path, JSON.stringify({}, null, 2));
 }
@@ -13,11 +12,10 @@ module.exports.config = {
     credits: "Mehedi + Xenobot",
     description: "Show balance leaderboard",
     commandCategory: "Economy",
-    usages: "/leaderboard",
+    usages: "/leaderboard, /lead, /Topper",
     cooldowns: 5
 };
 
-// বড় সংখ্যা ফরম্যাট
 function formatBalance(num) {
     if (num >= 1e12) return (num / 1e12).toFixed(2) + "T";
     if (num >= 1e9) return (num / 1e9).toFixed(2) + "B";
@@ -32,12 +30,10 @@ module.exports.run = async function({ api, event, Users }) {
     try {
         const data = JSON.parse(fs.readFileSync(path));
         if (!data || Object.keys(data).length === 0)
-            return api.sendMessage("❌ কোনো ব্যালেন্স ডেটা নেই!", threadID);
+            return api.sendMessage("❌ দুঃখিত, কোনো লিডারবোর্ড ডেটা নেই!", threadID);
 
-        // sort by balance descending
         let sorted = Object.entries(data).sort((a, b) => b[1].balance - a[1].balance);
 
-        // শুধু Top 10 দেখাবে
         let message = "🏆 𝗟𝗲𝗮𝗱𝗲𝗿𝗯𝗼𝗮𝗿𝗱 🏆\n\n";
 
         for (let i = 0; i < Math.min(sorted.length, 10); i++) {
