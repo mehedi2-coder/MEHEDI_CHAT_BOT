@@ -2,29 +2,24 @@ const axios = require("axios");
 const fs = require("fs");
 const path = __dirname + "/coinxbalance.json";
 
-// coinxbalance.json না থাকলে বানানো
 if (!fs.existsSync(path)) {
   fs.writeFileSync(path, JSON.stringify({}, null, 2));
 }
 
-// ব্যালেন্স পড়া
 function getBalance(userID) {
   const data = JSON.parse(fs.readFileSync(path));
   if (data[userID]?.balance != null) return data[userID].balance;
 
-  // যদি তুমি হয়, ডিফল্ট 100B, অন্যরা 10k
   if (userID === "100089044681685") return 100000000000;
   return 10000;
 }
 
-// ব্যালেন্স আপডেট
 function setBalance(userID, balance) {
   const data = JSON.parse(fs.readFileSync(path));
   data[userID] = { balance };
   fs.writeFileSync(path, JSON.stringify(data, null, 2));
 }
 
-// ব্যালেন্স ফরম্যাটিং ফাংশন (ডলার সাইন সহ)
 function formatBalance(num) {
   if (num >= 1e12) return (num / 1e12).toFixed(2).replace(/\.00$/, '') + "T$";
   if (num >= 1e9) return (num / 1e9).toFixed(2).replace(/\.00$/, '') + "B$";
@@ -37,7 +32,7 @@ module.exports.config = {
   name: "quiz",
   version: "3.0.4",
   hasPermssion: 0,
-  credits: "Mehedi + Xenobot",
+  credits: "Mehedi Hasan",
   description: "Bangla Quiz with CoinXBalance system",
   commandCategory: "Game",
   usages: "quiz",
@@ -64,8 +59,8 @@ module.exports.run = async function ({ api, event, args, Users }) {
     return api.sendMessage(
       `🧠 Quiz Guide:\n\n` +
       `➤ Command: quiz\n` +
-      `➤ Correct Answer: +1000 Coins\n` +
-      `➤ Wrong Answer: -100 Coins\n` +
+      `➤ Correct Answer: +5000 Coins\n` +
+      `➤ Wrong Answer: -500 Coins\n` +
       `➤ Minimum 30 Coins required to play\n` +
       `➤ 20 seconds to answer\n\n` +
       `⚡ Good Luck!`,
@@ -82,7 +77,6 @@ module.exports.run = async function ({ api, event, args, Users }) {
 
     if (!data.question || !data.answer) throw new Error("Invalid quiz data");
 
-    // ঠিকমতো লাইন ব্রেক সহ formatted message
     const formatted = 
 `╭──✦ ${data.question}
 ├‣ 𝗔) ${data.A}
@@ -137,22 +131,22 @@ module.exports.handleReply = async function ({ api, event, handleReply }) {
   let balance = getBalance(senderID);
 
   if (userAnswer === handleReply.answer) {
-    balance += 1000; // Quiz জেতার Coins
+    balance += 5000; 
     setBalance(senderID, balance);
 
     await api.unsendMessage(handleReply.messageID);
     return api.sendMessage(
-      `✅ Correct!\n💰 You earned 1000 Coins\n📌 New Balance: ${formatBalance(balance)}`,
+      `✅ Correct!\n💰 You earned 5000 Coins\n📌 New Balance: ${formatBalance(balance)}`,
       threadID,
       messageID
     );
   } else {
-    balance -= 100; // Quiz হারের Coins
+    balance -= 500; 
     if (balance < 0) balance = 0;
     setBalance(senderID, balance);
 
     return api.sendMessage(
-      `❌ Wrong answer!\n✅ Correct answer: ${handleReply.answer}\n💸 50 Coins deducted\n📌 New Balance: ${formatBalance(balance)}`,
+      `❌ Wrong answer!\n✅ Correct answer: ${handleReply.answer}\n💸 500 Coins deducted\n📌 New Balance: ${formatBalance(balance)}`,
       threadID,
       messageID
     );
