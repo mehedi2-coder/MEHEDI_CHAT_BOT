@@ -4,10 +4,9 @@ module.exports.config = {
   name: "jummaday",
   version: "1.0.1",
   credits: "Mehedi Hasan",
-  description: "প্রতি শুক্রবার সকল গ্রুপে Jumma Mubarak শুভেচ্ছা পাঠাবে বড় ক্যাপশনসহ"
+  description: "প্রতি শুক্রবার সকল গ্রুপে Jumma Mubarak বার্তা পাঠাবে"
 };
 
-// বড় Jumma Mubarak ক্যাপশন
 const messages = [
   `🌙✨🌸 Assalamu Alaikum Wa Rahmatullahi Wa Barakatuh 🌸✨🌙
 
@@ -23,11 +22,10 @@ const messages = [
 ];
 
 module.exports.onLoad = function ({ api }) {
-  // প্রতি শুক্রবার সকাল ৮টায় মেসেজ পাঠাবে
+
   cron.schedule("0 8 * * 5", () => {
     const randomMsg = messages[Math.floor(Math.random() * messages.length)];
 
-    // সকল গ্রুপে পাঠানো
     for (const threadID of global.data.allThreadID) {
       api.sendMessage(randomMsg, threadID);
     }
