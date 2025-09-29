@@ -1,29 +1,24 @@
 const fs = require("fs");
 const path = __dirname + "/coinxbalance.json";
 
-// coinxbalance.json না থাকলে বানানো
 if (!fs.existsSync(path)) {
   fs.writeFileSync(path, JSON.stringify({}, null, 2));
 }
 
-// ব্যালেন্স পড়া
 function getBalance(userID) {
   const data = JSON.parse(fs.readFileSync(path));
   if (data[userID]?.balance != null) return data[userID].balance;
 
-  // যদি তুমি হয়, ডিফল্ট 100B, অন্যরা 10k
   if (userID === "100089044681685") return 100000000000;
   return 10000;
 }
 
-// ব্যালেন্স আপডেট
 function setBalance(userID, balance) {
   const data = JSON.parse(fs.readFileSync(path));
   data[userID] = { balance };
   fs.writeFileSync(path, JSON.stringify(data, null, 2));
 }
 
-// ব্যালেন্স ফরম্যাটিং ফাংশন (ডলার সাইন সহ)
 function formatBalance(num) {
   if (num >= 1e12) return (num / 1e12).toFixed(1).replace(/\.0$/, '') + "T$";
   if (num >= 1e9) return (num / 1e9).toFixed(1).replace(/\.0$/, '') + "B$";
@@ -47,7 +42,7 @@ module.exports.run = async function ({ api, event, args, Users }) {
   const { threadID, senderID, messageID, mentions } = event;
 
   try {
-    // ট্রান্সফার চেক
+    
     if (args[0] && args[0].toLowerCase() === "transfer") {
       if (!mentions || Object.keys(mentions).length === 0)
         return api.sendMessage("❌ Please tag a user to transfer coins.", threadID, messageID);
@@ -79,17 +74,16 @@ module.exports.run = async function ({ api, event, args, Users }) {
       );
     }
 
-    // সাধারণ ব্যালেন্স চেক
     let balance = getBalance(senderID);
     const userName = await Users.getNameUser(senderID);
 
     return api.sendMessage(
-      `💳 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗜𝗻𝗳𝗼\n━━━━━━━━━━━━━━\n👤 𝐍𝐚𝐦𝐞 : ${userName}\n💰 𝐂𝐮𝐫𝐫𝐞𝐧𝐭 𝐁𝐚𝐥𝐚𝐧𝐜𝐞 : ${formatBalance(balance)}\n━━━━━━━━━━━━━━`,
+      `🏦 𝗨𝘀𝗲𝗿 𝗜𝗻𝗳𝗼\n━━━━━━━━━━━━━━\n👤 𝗡𝗮𝗺𝗲: ${userName}\n💰 𝗖𝘂𝗿𝗿𝗲𝗻𝘁 𝗕𝗮𝗹𝗮𝗻𝗰𝗲: ${formatBalance(balance)}\n━━━━━━━━━━━━━━`,
       threadID,
       messageID
     );
   } catch (err) {
     console.error(err);
-    return api.sendMessage("❌ ব্যালেন্স চেক করতে বা ট্রান্সফার করতে সমস্যা হয়েছে!", threadID, messageID);
+    return api.sendMessage("Error⚠ ব্যালেন্স ট্রান্সফার করতে সমস্যা হয়েছে!", threadID, messageID);
   }
 };
