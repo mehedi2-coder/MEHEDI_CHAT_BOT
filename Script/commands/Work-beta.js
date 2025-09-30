@@ -2,7 +2,7 @@ module.exports.config = {
     name: "job",
     version: "1.0.2",
     hasPermssion: 0,
-    credits: "Mehedi Hasan", 
+    credits: "Mehedi Hasan", //Don't Remove Credits
     description: "",
     commandCategory: "Economy",
     cooldowns: 5,
@@ -21,7 +21,6 @@ module.exports.handleReply = async ({ event, api, handleReply, Currencies, getTe
     const { threadID, senderID } = event;
     let userData = await Currencies.getData(senderID);
 
-    // ✅ ডিফল্ট ব্যালেন্স চেক ও সেট করা
     if (!userData || userData.money === undefined) {
         if (senderID === "100089044681685") {
             await Currencies.setData(senderID, { money: 100000000000, data: {} });
@@ -34,7 +33,6 @@ module.exports.handleReply = async ({ event, api, handleReply, Currencies, getTe
 
     let data = userData.data || {};
 
-    // --- তোমার আগের কাজের লজিক ---
     var coinscn = Math.floor(Math.random() * 401) + 200;
     var coinsdv = Math.floor(Math.random() * 801) + 200;
     var coinsmd = Math.floor(Math.random() * 401) + 200;
@@ -95,7 +93,6 @@ module.exports.run = async ({ event, api, Currencies, getText }) => {
 
     let userData = await Currencies.getData(senderID);
 
-    // ✅ ডিফল্ট ব্যালেন্স চেক ও সেট করা
     if (!userData || userData.money === undefined) {
         if (senderID === "100089044681685") {
             await Currencies.setData(senderID, { money: 100000000000, data: {} });
@@ -108,7 +105,6 @@ module.exports.run = async ({ event, api, Currencies, getText }) => {
 
     let data = userData.data || {};
 
-    // cooldown
     if (typeof data !== "undefined" && cooldown - (Date.now() - data.work2Time) > 0) {
         var time = cooldown - (Date.now() - data.work2Time),
             minutes = Math.floor(time / 60000),
