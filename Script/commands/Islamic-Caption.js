@@ -1,7 +1,8 @@
-const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+const request = require("request");
 
 const botReplies = [
-
 `╭•┄┅═══❁🌺❁═══┅┄•╮
 
 ✦❝ اَلْـحَمْـدُ لله ❞✦  
@@ -348,7 +349,7 @@ const images = [
 
 module.exports.config = {
   name: "islamic-caption",
-  version: "1.0.2",
+  version: "1.0.3",
   hasPermssion: 0,
   credits: "Mehedi Hasan",
   description: "Send Islamic captions when someone types 'Caption'",
@@ -362,19 +363,28 @@ module.exports.handleEvent = async function ({ api, event }) {
     const { body, threadID, messageID } = event;
     if (!body) return;
 
-    // Caption / caption / CAPTION → সব কাজ করবে
     if (/^caption$/i.test(body.trim())) {
       const msg = botReplies[Math.floor(Math.random() * botReplies.length)];
       const img = images[Math.floor(Math.random() * images.length)];
 
-      // Image stream ফিক্সড
-      const imgStream = (await axios.get(img, { responseType: "stream" })).data;
+      const cacheDir = path.join(__dirname, "cache");
+      if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
 
-      return api.sendMessage(
-        { body: msg, attachment: imgStream },
-        threadID,
-        messageID
-      );
+      const filename = path.join(cacheDir, `caption_${Date.now()}.jpg`);
+
+      request(encodeURI(img))
+        .pipe(fs.createWriteStream(filename))
+        .on("close", () => {
+          api.sendMessage(
+            {
+              body: msg,
+              attachment: fs.createReadStream(filename)
+            },
+            threadID,
+            () => fs.unlinkSync(filename),
+            messageID
+          );
+        });
     }
   } catch (e) {
     console.log(e);
