@@ -6,7 +6,7 @@ module.exports.config = {
   name: "\n", // command name (still blank)
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "Mehedi Hasan", //Don't My Remove Credits
+  credits: "Mehedi Hasan", //Don't Remove Credits
   description: "🌸Assalamu Alaikum 🌸\n\n🌺 Thanks you so much for using Mehedi Hasan's Bot ❤️‍🩹\n\n😻 Hope you all enjoy our group ❤️‍🩹\n\n☢️To view any command 📌\n/Help\n/Bot\n/Info",
   commandCategory: "Info",
   usages: "/",
