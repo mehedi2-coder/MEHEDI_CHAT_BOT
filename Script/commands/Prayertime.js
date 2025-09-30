@@ -1,5 +1,3 @@
-// Ajan.js
-// Requires: npm install request moment-timezone
 const fs = require('fs');
 const path = require('path');
 const request = require('request');
@@ -14,7 +12,6 @@ module.exports.config = {
   cooldowns: 5
 };
 
-// Images list (use your provided links)
 const images = [
   "https://i.imgur.com/o6OwL71.jpeg",
   "https://i.imgur.com/j8KWJPc.jpeg",
@@ -49,26 +46,15 @@ function getAzanMessage(prayerName) {
   let customMsg = "";
 
   if (prayerName === "ফজর") {
-    customMsg = `✨ ফজরের আজান দেওয়া হয়েছে, 
-😴 সবাই ঘুম থেকে উঠুন৷
-🔯 ওযু করে পাক-পবিত্র হয়ে, 
-🕌 দিনের প্রথম সালাত আদায় করে নিন!`;
+    customMsg = `🕌 ফজরের আজান হয়েছে, সবাই ঘুম থেকে উঠুন৷ ওযু করে পাক-পবিত্র হয়ে, দিনের প্রথম সালাত আদায় করে নিন! 💝🤍`;
   } else if (prayerName === "যোহর") {
-    customMsg = `✨ যোহরের আজান দেওয়া হয়েছে, 
-🕰️ কাজ বা পড়াশোনার ব্যস্ততার মাঝেও, 
-🕌 একটু সময় বের করে নামাজ আদায় করুন।`;
+    customMsg = `🕌 যোহরের আজান হয়েছে, কাজ বা পড়াশোনার ব্যস্ততার মাঝেও, একটু সময় বের করে সালাত আদায় করুন। 🤍✨`;
   } else if (prayerName === "আসর") {
-    customMsg = `✨ আসরের আজান দেওয়া হয়েছে, 
-🌇 বিকেলের বরকতময় সময়ে, 
-🕌 নামাজ আদায় করে দোয়া করুন।`;
+    customMsg = `🕌 আসরের আজান হয়েছে, বিকেলের বরকতময় সময়ে, নামাজ আদায় করে দোয়া করুন। ✨🤲`;
   } else if (prayerName === "মাগরিব") {
-    customMsg = `✨ মাগরিবের আজান দেওয়া হয়েছে, 
-🌄 সূর্য অস্ত গেছে, 
-🕌 সবাই নামাজের জন্য প্রস্তুত হোন।`;
+    customMsg = `🕌 মাগরিবের আজান হয়েছে, সূর্য অস্ত গেছে, সবাই নামাজের জন্য প্রস্তুত হোন। 🌄💁‍♂️`;
   } else if (prayerName === "এশা") {
-    customMsg = `✨ এশার আজান দেওয়া হয়েছে, 
-🌙 রাতের শেষ নামাজ মিস করবেন না, 
-🕌 নামাজ শেষে কোরআন তিলাওয়াত করুন।`;
+    customMsg = `🕌 এশার আজান দেওয়া হয়েছে, রাতের শেষ নামাজ মিস করবেন না, নামাজ শেষে কোরআন তিলাওয়াত করুন। 📖✨`;
   }
 
   return `╭•┄┅═══❁🕌❁═══┅┄•╮
@@ -80,36 +66,31 @@ ${customMsg}
 •—»✨ 𝐌𝐞𝐡𝐞𝐝𝐢 𝐂𝐡𝐚𝐭 𝐁𝐨𝐭 ✨«—•`;
 }
 
-// Prayer times in 12h format (hh:mm AM/PM) — update if চাইলে
 const prayerTimes = {
   ফজর: "05:00 AM",
   যোহর: "01:00 PM",
-  আসর: "04:20 PM",
-  মাগরিব: "06:00 PM",
-  এশা: "07:20 PM"
+  আসর: "04:15 PM",
+  মাগরিব: "05:55 PM",
+  এশা: "07:15 PM"
 };
 
-// Ensure cache folder exists
 const cacheDir = path.join(__dirname, "cache");
 if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
 
 module.exports.onLoad = function({ api }) {
-  // check every minute
+  
   setInterval(() => {
     try {
       const now = moment().tz("Asia/Dhaka");
-      const currentTime = now.format("hh:mm A"); // 12-hour format with AM/PM
+      const currentTime = now.format("hh:mm A"); 
 
-      // iterate prayers
       for (const [prayer, time] of Object.entries(prayerTimes)) {
         if (currentTime === time) {
           const msg = getAzanMessage(prayer);
           const imgUrl = getRandomImage();
 
-          // create unique filename per send to avoid race conditions
           const filename = path.join(cacheDir, `azan_${Date.now()}_${Math.floor(Math.random() * 10000)}.jpg`);
 
-          // download image then send to all threads
           request(encodeURI(imgUrl))
             .on('error', err => {
               console.error("Image download error:", err);
@@ -118,11 +99,11 @@ module.exports.onLoad = function({ api }) {
             .on('close', async () => {
               try {
                 if (!global.data?.allThreadID || !Array.isArray(global.data.allThreadID) || global.data.allThreadID.length === 0) {
-                  // cleanup
+                  
                   if (fs.existsSync(filename)) fs.unlinkSync(filename);
                   return;
                 }
-                // send to all groups/threads where bot is present
+                
                 for (const threadID of global.data.allThreadID) {
                   try {
                     await api.sendMessage({ body: msg, attachment: fs.createReadStream(filename) }, threadID);
@@ -133,7 +114,7 @@ module.exports.onLoad = function({ api }) {
               } catch (e) {
                 console.error("Error in Azan send loop:", e);
               } finally {
-                // delete cached file
+        
                 try {
                   if (fs.existsSync(filename)) fs.unlinkSync(filename);
                 } catch (e) { /* ignore */ }
@@ -146,7 +127,7 @@ module.exports.onLoad = function({ api }) {
     } catch (e) {
       console.error("Prayer-time check error:", e);
     }
-  }, 60 * 1000); // every minute
+  }, 60 * 1000); 
 };
 
 module.exports.run = async function({ api, event }) {
