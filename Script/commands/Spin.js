@@ -52,7 +52,7 @@ module.exports.run = async function({ api, event, args, Users }) {
 
   const cells = [
     ["2x", "0x", "3x"],
-    ["X",  "↗️", "6x"],
+    ["X",  "⭕", "6x"],
     ["0x", "3x", "X"]
   ];
 
@@ -73,7 +73,7 @@ module.exports.run = async function({ api, event, args, Users }) {
     outcome = "😐 0x — nothing happened. Try again!";
   } else {
     
-    const m = parseInt(resultCell); // 2,3,6
+    const m = parseInt(resultCell); 
     if (!isNaN(m) && m > 0) {
       winnings = bet * m;
       outcome = `🎉 You hit ${m}x! You won ${formatBalance(winnings)}.`;
@@ -96,7 +96,7 @@ module.exports.run = async function({ api, event, args, Users }) {
     gridDisplay += "\n";
 }
   const userName = (await Users.getNameUser(senderID)) || "Player";
-  const message = `${gridDisplay}\n${outcome}\n💰 New Balance for ${userName}: ${formatBalance(newBalance)}`;
+  const message = `${gridDisplay}\n${outcome}\n💰 New Balance: ${formatBalance(newBalance)}`;
 
   return api.sendMessage(message, threadID, messageID);
 };
