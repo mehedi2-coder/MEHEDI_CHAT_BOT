@@ -4,17 +4,17 @@ const moment = require('moment-timezone');
 
 module.exports.config = {
     name: 'autosent',
-    version: '1.4.1', 
+    version: '1.2.1',
     hasPermssion: 0,
-    credits: '𝗠𝗲𝗵𝗲𝗱𝗶 𝗛𝗮𝘀𝗮𝗻',
-    description: 'Automatically sends styled hourly messages in all groups (BD Time)',
+    credits: '𝗠𝗲𝗵𝗲𝗱𝗶 𝗛𝗮𝘀𝗮𝗻', // Don't Remove Credits
+    description: 'Automatically sends styled hourly messages in all groups (BD Time, 12h format)',
     commandCategory: 'group messenger',
     usages: '[]',
     cooldowns: 3
 };
 
 const captions = {
-    0: "🌌 আরো একটি দিন শেষ। 😴 নতুন দিনের শুরু, শুভরাত্রি সবাইকে!",
+    0: "🌌 আরো একটি দিন শেষ।\n😴 নতুন দিনের শুরু, শুভরাত্রি সবাইকে!",
     1: "🏃 অনেক দেরি হয়ে গেছে, ঘুমিয়ে পড়ো তাড়াতাড়ি",
     2: "😒 যারা জেগে আছো একটু ঘুমানো দরকার!",
     3: "🌌 অনেক রাত হলো, সকালের আগে বিশ্রাম নাও।",
@@ -40,41 +40,8 @@ const captions = {
     23: "😴 ঘুমিয়ে পড়ার ভালো সময়"
 };
 
-const images = {
-    0: "https://i.imgur.com/o6OwL71.jpeg",
-    1: "https://i.imgur.com/j8KWJPc.jpeg",
-    2: "https://i.imgur.com/1tzl381.jpeg",
-    3: "https://i.imgur.com/pT2UUe1.jpeg",
-    4: "https://i.imgur.com/aWWU13H.jpeg",
-    5: "https://i.imgur.com/bi0UsSd.jpeg",
-    6: "https://i.imgur.com/shHv3vC.jpeg",
-    7: "https://i.imgur.com/xaOUdda.jpeg",
-    8: "https://i.imgur.com/JOF3gpS.jpeg",
-    9: "https://i.imgur.com/QaUCNjc.jpeg",
-    10: "https://i.imgur.com/cIsK2mt.jpeg",
-    11: "https://i.imgur.com/BzP5GLE.jpeg",
-    12: "https://i.imgur.com/Om8CmHX.jpeg",
-    13: "https://i.imgur.com/l5ANMhc.jpeg",
-    14: "https://i.imgur.com/YJst2oE.jpeg",
-    15: "https://i.imgur.com/WEX0spX.jpeg",
-    16: "https://i.imgur.com/Ebo7j4c.jpeg",
-    17: "https://i.imgur.com/AG1JLAH.jpeg",
-    18: "https://i.imgur.com/rnYShxr.jpeg",
-    19: "https://i.imgur.com/K7V8iZo.jpeg",
-    20: "https://i.imgur.com/gdVPT1p.jpeg",
-    21: "https://i.imgur.com/qicdVc4.jpeg",
-    22: "https://i.imgur.com/CPxLab9.jpeg",
-    23: "https://i.imgur.com/o6OwL71.jpeg"
-};
-
-function format12Hour(hour) {
-    const h = hour % 12 === 0 ? 12 : hour % 12;
-    const ampm = hour < 12 ? 'AM' : 'PM';
-    return `${h}:00 ${ampm}`;
-}
-
 module.exports.onLoad = ({ api }) => {
-    console.log(chalk.bold.hex("#00c300")("============ AUTOSENT COMMAND LOADED (BD TIME) ============"));
+    console.log(chalk.bold.hex("#00c300")("============ AUTOSENT COMMAND LOADED (BD TIME, 12h FORMAT) ============"));
 
     for (let h = 0; h < 24; h++) {
         const rule = new schedule.RecurrenceRule();
@@ -85,29 +52,26 @@ module.exports.onLoad = ({ api }) => {
         schedule.scheduleJob(rule, () => {
             if (!global.data?.allThreadID) return;
 
-            const message = captions[h] || "⏰ সময়ের কদর করুন, প্রতিটি মুহূর্তই মূল্যবান!";
-            const image = images[h] || null;
-            const formattedTime = format12Hour(h);
+            const nowMoment = moment().tz('Asia/Dhaka');
+            const formattedTime = nowMoment.format('hh:mm A'); 
+
+            const message = captions[h] || "⏰ সময়ের কদর করো, প্রতিটা মুহূর্তই মূল্যবান!";
 
             const finalMessage =
 `•┄┅═══❁⏰❁═══┅┄•╮
 
-🕒 এখন সময় ${h}:00 টা
+🕒 এখন সময়: ${formattedTime} টা
 ${message}
 
 🔰 সময়ের কদর করো,
-🔯 প্রতিটি মুহূর্তই মূল্যবান!
+🔯 প্রতিটা মুহূর্তই মূল্যবান!
 
 ╰•┄┅═══❁⏰❁═══┅┄•╯`;
 
             global.data.allThreadID.forEach(threadID => {
-                api.sendMessage(
-                    image ? { body: finalMessage, attachment: { url: image } } : { body: finalMessage },
-                    threadID,
-                    (error) => {
-                        if (error) console.error(`Failed to send message to ${threadID}:`, error);
-                    }
-                );
+                api.sendMessage(finalMessage, threadID, (error) => {
+                    if (error) console.error(`Failed to send message to ${threadID}:`, error);
+                });
             });
 
             console.log(chalk.hex("#00FFFF")(`Scheduled (BDT): ${formattedTime} => ${message}`));
@@ -115,4 +79,6 @@ ${message}
     }
 };
 
-module.exports.run = () => {};
+module.exports.run = () => {
+    // Main logic is in onLoad
+};
