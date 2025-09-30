@@ -31,10 +31,10 @@ module.exports.config = {
   name: "Transfer",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "𝐌𝐞𝐡𝐞𝐝𝐢 + 𝐗𝐞𝐧𝐨𝐛𝐨𝐭",
-  description: "Transfer money to another user",
+  credits: "𝐌𝐞𝐡𝐞𝐝𝐢 𝐇𝐚𝐬𝐚𝐧", //Don't remove credits
+  description: "Transfer coin to another user",
   commandCategory: "Economy",
-  usages: "/Transfer Money <amount> @user",
+  usages: "/Transfer coin <amount> @user",
   cooldowns: 5
 };
 
@@ -42,13 +42,13 @@ module.exports.run = async function ({ api, event, args, Users }) {
   const { threadID, senderID, messageID, mentions } = event;
 
   if (!args[0] || args[0].toLowerCase() !== "money")
-    return api.sendMessage("❌ Usage: /send Money <amount> @user", threadID, messageID);
+    return api.sendMessage("✅ Usage: /send Money <amount> @user", threadID, messageID);
 
   if (!args[1] || isNaN(args[1]))
-    return api.sendMessage("❌ Please enter a valid amount.", threadID, messageID);
+    return api.sendMessage("♻ Please enter a valid amount.", threadID, messageID);
 
   if (!mentions || Object.keys(mentions).length === 0)
-    return api.sendMessage("❌ Please tag a user to send money.", threadID, messageID);
+    return api.sendMessage("♻ Please tag a user to transfer coin.", threadID, messageID);
 
   const targetID = Object.keys(mentions)[0];
   const amount = parseInt(args[1]);
@@ -57,7 +57,7 @@ module.exports.run = async function ({ api, event, args, Users }) {
 
   let senderBalance = getBalance(senderID);
   if (senderBalance < amount)
-    return api.sendMessage("❌ You don't have enough balance.", threadID, messageID);
+    return api.sendMessage("⚠ Error: You don't have enough coin.", threadID, messageID);
 
   let receiverBalance = getBalance(targetID);
 
@@ -71,7 +71,7 @@ module.exports.run = async function ({ api, event, args, Users }) {
   const receiverName = await Users.getNameUser(targetID);
 
   return api.sendMessage(
-    `✅ 𝐘𝐨𝐮𝐫 𝐓𝐫𝐚𝐧𝐬𝐚𝐜𝐭𝐢𝐨𝐧 𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥!\n\n👤 ${senderName} 𝐬𝐞𝐧𝐭 ${formatBalance(amount)} to ${receiverName}.\n📌 𝐘𝐨𝐮𝐫 𝐍𝐞𝐰 𝐁𝐚𝐥𝐚𝐧𝐜𝐞: ${formatBalance(senderBalance)}`,
+    `✅ 𝐘𝐨𝐮𝐫 𝐓𝐫𝐚𝐧𝐬𝐚𝐜𝐭𝐢𝐨𝐧 𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥!\n\n🔯 ${senderName} 𝐬𝐞𝐧𝐭 ${formatBalance(amount)} 𝐭𝐨 ${receiverName}.\n📌 𝐘𝐨𝐮𝐫 𝐍𝐞𝐰 𝐁𝐚𝐥𝐚𝐧𝐜𝐞: ${formatBalance(senderBalance)}`,
     threadID,
     messageID
   );
