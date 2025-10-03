@@ -20,7 +20,7 @@ module.exports.config = {
   name: "top",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "Mehedi Hasan",
+  credits: "Mehedi Hasan", //© Don't Remove Credits
   description: "Top Users / Threads / Money / Level",
   commandCategory: "economy",
   usages: "[thread/user/money/level]",
