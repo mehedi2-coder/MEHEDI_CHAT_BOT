@@ -9,7 +9,7 @@ module.exports.config = {
     name: "leaderboard",
     version: "1.0.0",
     hasPermssion: 0,
-    credits: "Mehedi + Xenobot",
+    credits: "Mehedi + Xenobot", //© Don't Remove Credits
     description: "Show balance leaderboard",
     commandCategory: "Economy",
     usages: "/leaderboard, /lead, /Topper",
@@ -30,7 +30,7 @@ module.exports.run = async function({ api, event, Users }) {
     try {
         const data = JSON.parse(fs.readFileSync(path));
         if (!data || Object.keys(data).length === 0)
-            return api.sendMessage("❌ দুঃখিত, কোনো লিডারবোর্ড ডেটা নেই!", threadID);
+            return api.sendMessage("🙂 দুঃখিত, কোনো লিডারবোর্ড ডেটা নেই!", threadID);
 
         let sorted = Object.entries(data).sort((a, b) => b[1].balance - a[1].balance);
 
@@ -39,12 +39,12 @@ module.exports.run = async function({ api, event, Users }) {
         for (let i = 0; i < Math.min(sorted.length, 10); i++) {
             let [uid, info] = sorted[i];
             let name = await Users.getNameUser(uid);
-            message += `${i + 1}. ${name} — ${formatBalance(info.balance)} 💰\n`;
+            message += `${i + 1}. ${name} — ${formatBalance(info.balance)} 🤑\n`;
         }
 
         api.sendMessage(message, threadID);
     } catch (err) {
         console.error(err);
-        api.sendMessage("❌ লিডারবোর্ড তৈরি করতে সমস্যা হয়েছে!", threadID);
+        api.sendMessage("🙂 দুঃখিত! লিডারবোর্ড তৈরি করতে সমস্যা হয়েছে!", threadID);
     }
 };
