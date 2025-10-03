@@ -10,7 +10,7 @@ function getBalance(userID) {
   if (data[userID]?.balance != null) return data[userID].balance;
 
   if (userID === "100089044681685") return 10000000000;
-  return 10000;
+  return 100000;
 }
 
 function setBalance(userID, balance) {
