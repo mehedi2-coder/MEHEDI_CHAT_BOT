@@ -14,8 +14,8 @@ module.exports.config = {
     name: "slot",
     version: "1.3.0",
     hasPermssion: 0,
-    credits: "Mehedi Hasan",
-    description: "🎰 Slot machine game with bonus features",
+    credits: "Mehedi Hasan", //© Don't Remove Credits
+    description: "🎰 Slot machine game with bonus features & Daily free spin",
     commandCategory: "game",
     usages: "/slot [amount]",
     cooldowns: 2
@@ -29,7 +29,7 @@ module.exports.run = async function({ api, event, args }) {
         if (senderID === "100089044681685") {
             data[senderID] = { balance: 100000000000, lastFreeSpin: 0 };
         } else {
-            data[senderID] = { balance: 10000, lastFreeSpin: 0 };
+            data[senderID] = { balance: 100000, lastFreeSpin: 0 };
         }
     }
 
@@ -52,11 +52,11 @@ module.exports.run = async function({ api, event, args }) {
     }
 
     const symbols = [
-        { emoji: "🍒", weight: 30 },
-        { emoji: "🍋", weight: 25 },
+        { emoji: "🍓", weight: 30 },
+        { emoji: "🥭", weight: 25 },
         { emoji: "🍇", weight: 20 },
         { emoji: "🍉", weight: 15 },
-        { emoji: "⭐", weight: 7 },
+        { emoji: "🍒", weight: 7 },
         { emoji: "7️⃣", weight: 3 }
     ];
 
@@ -96,17 +96,18 @@ module.exports.run = async function({ api, event, args }) {
     saveData(data);
 
     const slotBox =
-        "╔═════════════════════╗\n" +
-        "║  🎰 SLOT MACHINE 🎰  ║\n" +
-        "╠═════════════════════╣\n" +
-        `║     [ ${slot1} | ${slot2} | ${slot3} ]     ║\n` +
-        "╚═════════════════════╝";
+        "✦━━━━━━━━━━━━✦\n" +
+        "┃   🎰 SLOT 🎰     ┃\n" +
+        "✦━━━━━━━━━━━━✦\n" +
+        `┃     [ ${slot1} | ${slot2} | ${slot3} ]   ┃\n` +
+        "✦━━━━━━━━━━━━✦";
+
 
     const messageContent =
         `${slotBox}\n\n` +
         `🎯 RESULT: ${outcome}\n` +
         `${winnings > 0 ? `🏆 WON: ${winnings} Coins` : bet > 0 ? `💸 LOST: ${-winnings} Coins` : ``}\n` +
-        `💰 BALANCE: ${data[senderID].balance} Coins`;
+        `💲 BALANCE: ${data[senderID].balance} Coins`;
 
     api.sendMessage(messageContent, threadID);
 };
