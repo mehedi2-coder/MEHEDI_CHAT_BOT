@@ -31,8 +31,8 @@ module.exports.config = {
   name: "bet",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "Mehedi + Xenobot",
-  description: "Place a bet: win 3x,4x,8x,20x,50x coins!",
+  credits: "Mehedi + Xenobot", //© Don't Remove Credits
+  description: "Place a bet: win 2x,5x,10x,20x,40x,60x,100x coins!",
   commandCategory: "Economy",
   usages: "bet <amount>",
   cooldowns: 5
@@ -42,13 +42,13 @@ module.exports.run = async function({ api, event, args }) {
   const { senderID, threadID, messageID } = event;
   let balance = getBalance(senderID);
 
-  if (!args[0] || isNaN(args[0])) return api.sendMessage("❌ Please enter a valid bet amount.", threadID, messageID);
+  if (!args[0] || isNaN(args[0])) return api.sendMessage("⭕ Please enter a valid bet amount.", threadID, messageID);
 
   let betAmount = parseInt(args[0]);
-  if (betAmount <= 0) return api.sendMessage("❌ Bet amount must be greater than 0.", threadID, messageID);
-  if (betAmount > balance) return api.sendMessage("❌ You don't have enough Coins to bet that amount.", threadID, messageID);
+  if (betAmount <= 0) return api.sendMessage("💲 Bet amount must be greater than 0.", threadID, messageID);
+  if (betAmount > balance) return api.sendMessage("🙂 Sorry, You don't have enough Coins to bet that amount.", threadID, messageID);
 
-  const multipliers = [3, 4, 8, 20, 50];
+  const multipliers = [2, 5, 10, 20, 40, 60, 100];
   const chosenMultiplier = multipliers[Math.floor(Math.random() * multipliers.length)];
 
   const win = Math.random() < 0.5; 
@@ -58,7 +58,7 @@ module.exports.run = async function({ api, event, args }) {
     balance += winAmount;
     setBalance(senderID, balance);
     return api.sendMessage(
-      `🎉 Congratulations! You won the bet!\n💰 Bet: ${formatBalance(betAmount)}\n⚡ Multiplier: ${chosenMultiplier}x\n📌 New Balance: ${formatBalance(balance)}`,
+      `🎉 Congratulations! You won the bet!\n🤑 Bet: ${formatBalance(betAmount)}\n🚀 Multiplier: ${chosenMultiplier}x\n📥 Your New Balance: ${formatBalance(balance)}`,
       threadID,
       messageID
     );
@@ -67,7 +67,7 @@ module.exports.run = async function({ api, event, args }) {
     if (balance < 0) balance = 0;
     setBalance(senderID, balance);
     return api.sendMessage(
-      `Bad luck! You lost the bet!\n💰 Bet: ${formatBalance(betAmount)}\n📌 New Balance: ${formatBalance(balance)}`,
+      `😔 Bad luck! You lost the bet!\n💲 Bet: ${formatBalance(betAmount)}\n📤 Your New Balance: ${formatBalance(balance)}`,
       threadID,
       messageID
     );
