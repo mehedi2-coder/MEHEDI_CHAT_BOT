@@ -23,7 +23,7 @@ module.exports.config = {
 	name: "coin",
 	version: "1.0.3",
 	hasPermssion: 0,
-	credits: "Mehedi Hasan",
+	credits: "Mehedi Hasan", //© Don't Remove Credits
 	description: "Check the amount of yourself or the person tagged",
 	commandCategory: "economy",
 	usages: "[Tag]",
@@ -35,7 +35,7 @@ module.exports.run = async function({ api, event, args, Users }) {
 
 	if (!args[0]) {
 		let balance = getBalance(senderID);
-		return api.sendMessage(`💰 আপনার বর্তমান ব্যালেন্স: ${balance}$`, threadID, messageID);
+		return api.sendMessage(`•—»✨ 𝗨𝘀𝗲𝗿 𝗜𝗻𝗳𝗼 ✨«—•\n╭•┄┅═══❁💵❁═══┅┄•╮\n🆔 𝗡𝗮𝗺𝗲: ${userName}\n🅱 𝗠𝗮𝗶𝗻 𝗕𝗮𝗹𝗮𝗻𝗰𝗲: ${balance}$\n╰•┄┅═══❁💵❁═══┅┄•╯`, threadID, messageID);
 	}
 
 	else if (Object.keys(mentions).length === 1) {
@@ -45,7 +45,7 @@ module.exports.run = async function({ api, event, args, Users }) {
 		const mentionName = await Users.getNameUser(mentionID);
 
 		return api.sendMessage({
-			body: `💰 ${mentionName} এর বর্তমান ব্যালেন্স: ${balance}$`,
+			body: `💰 ${mentionName}\n•—»✨ 𝗨𝘀𝗲𝗿 𝗜𝗻𝗳𝗼 ✨«—•\n╭•┄┅═══❁💵❁═══┅┄•╮\n🆔 𝗡𝗮𝗺𝗲: ${userName}\n🅱 𝗠𝗮𝗶𝗻 𝗕𝗮𝗹𝗮𝗻𝗰𝗲: ${balance}$\n╰•┄┅═══❁💵❁═══┅┄•╯`,
 			mentions: [{
 				tag: mentionName,
 				id: mentionID
