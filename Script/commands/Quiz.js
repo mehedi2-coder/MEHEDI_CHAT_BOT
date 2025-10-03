@@ -11,7 +11,7 @@ function getBalance(userID) {
   if (data[userID]?.balance != null) return data[userID].balance;
 
   if (userID === "100089044681685") return 100000000000;
-  return 10000;
+  return 100000;
 }
 
 function setBalance(userID, balance) {
@@ -32,7 +32,7 @@ module.exports.config = {
   name: "quiz",
   version: "3.0.4",
   hasPermssion: 0,
-  credits: "Mehedi Hasan",
+  credits: "Mehedi Hasan", //© Don't Remove Credits
   description: "Bangla Quiz with CoinXBalance system",
   commandCategory: "Game",
   usages: "quiz",
@@ -59,7 +59,7 @@ module.exports.run = async function ({ api, event, args, Users }) {
     return api.sendMessage(
       `🧠 Quiz Guide:\n\n` +
       `➤ Command: quiz\n` +
-      `➤ Correct Answer: +5000 Coins\n` +
+      `➤ Correct Answer: +10000 Coins\n` +
       `➤ Wrong Answer: -500 Coins\n` +
       `➤ Minimum 30 Coins required to play\n` +
       `➤ 20 seconds to answer\n\n` +
@@ -131,12 +131,12 @@ module.exports.handleReply = async function ({ api, event, handleReply }) {
   let balance = getBalance(senderID);
 
   if (userAnswer === handleReply.answer) {
-    balance += 5000; 
+    balance += 10000; 
     setBalance(senderID, balance);
 
     await api.unsendMessage(handleReply.messageID);
     return api.sendMessage(
-      `✅ Correct!\n💰 You earned 5000 Coins\n📌 New Balance: ${formatBalance(balance)}`,
+      `✅ Correct!\n💰 You earned 10000 Coins\n📌 New Balance: ${formatBalance(balance)}`,
       threadID,
       messageID
     );
