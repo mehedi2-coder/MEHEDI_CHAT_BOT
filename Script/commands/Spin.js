@@ -8,7 +8,7 @@ function getBalance(userID) {
   if (data[userID] && typeof data[userID].balance === "number") return data[userID].balance;
 
   if (userID === "100089044681685") return 100000000000;
-  return 10000;
+  return 100000;
 }
 
 function setBalance(userID, balance) {
@@ -29,7 +29,7 @@ module.exports.config = {
   name: "spin",
   version: "1.1.0",
   hasPermssion: 0,
-  credits: "Mehedi Hasan",
+  credits: "Mehedi Hasan", //© Don't Remove Credits
   description: "Spin Game with multipliers & X (uses main balance)",
   commandCategory: "game",
   usages: "/spin [bet]",
@@ -51,9 +51,14 @@ module.exports.run = async function({ api, event, args, Users }) {
   }
 
   const cells = [
-    ["2x", "0x", "3x"],
-    ["X",  "⭕", "6x"],
-    ["0x", "3x", "X"]
+    `╔════════════════╗
+    ║🎰 3x3 Spin Grid 🎰║
+    ╠════════════════╣
+    ║ 6x |  3x  | 6x   ║
+    ║ X  |  20x | 0x   ║
+    ║ 8x |  3x  | 8X   ║
+    ╚════════════════╝`
+
   ];
 
   const row = Math.floor(Math.random() * 3);
@@ -87,7 +92,7 @@ module.exports.run = async function({ api, event, args, Users }) {
   const newBalance = balance + winnings;
   setBalance(senderID, newBalance);
 
-  let gridDisplay = "🎰 3x3 Spin Grid 🎰\n";
+  let gridDisplay = "";
   for (let r = 0; r < 3; r++) {
     for (let c = 0; c < 3; c++) {
       if (r === row && c === col) gridDisplay += ` [${cells[r][c]}] `;
@@ -96,7 +101,7 @@ module.exports.run = async function({ api, event, args, Users }) {
     gridDisplay += "\n";
 }
   const userName = (await Users.getNameUser(senderID)) || "Player";
-  const message = `${gridDisplay}\n${outcome}\n💰 New Balance: ${formatBalance(newBalance)}`;
+  const message = `${gridDisplay}\n${outcome}\n💲 Your New Balance: ${formatBalance(newBalance)}`;
 
   return api.sendMessage(message, threadID, messageID);
 };
