@@ -31,7 +31,7 @@ module.exports.config = {
   name: "balance",
   version: "1.0.1",
   hasPermssion: 0,
-  credits: "𝐌𝐞𝐡𝐞𝐝𝐢 𝐇𝐚𝐬𝐚𝐧",
+  credits: "𝐌𝐞𝐡𝐞𝐝𝐢 𝐇𝐚𝐬𝐚𝐧", //© Don't Remove Credits
   description: "Check your coin balance & Transfer Coins",
   commandCategory: "Economy",
   usages: "balance /transfer <@user> <amount>",
