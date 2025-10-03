@@ -2,7 +2,7 @@ module.exports.config = {
   name: "security",
   version: "1.1.0",
   hasPermssion: 2,
-  credits: "Mehedi Hasan",
+  credits: "Mehedi Hasan", //© Don't Remove Credits
   description: "Remove users who use bad words instantly, warn spammers once then remove if repeated",
   commandCategory: "group",
   usages: "security",
@@ -11,16 +11,16 @@ module.exports.config = {
 
 const BAD_WORDS = [
   "fuck","shit","bitch","asshole","motherfucker","fucker","dick","pussy","cock","bastard",
-  "slut","whore","prostitute","porn","xvideos","xnxx","pornhub","nude","sex",
+  "slut","whore","prostitute","porn","xvideos","xnxx","pornhub","nude","sex", "maderchod", "maderchud", "shalarpot", "salarpot", "abalchuda", "abalchu*da", "halarpot", "halarput", "bokachuda", "bokachoda", "khankimagi", "khankirpola", "khanki",
   "চোদা","চুদ","চুদা","চুদবি","চোদন","গুদ","মাগী","হারামি","বেশ্যা","খানকি","ভোদা","পুটকি",
-  "মাদারচোদ","বাপচোদ","হারামজাদা","চোদাচুদি","গান্ডু","হিজড়া","পোঁদ"
+  "মাদারচোদ","বাপচোদ","হারামজাদা","চোদাচুদি","গান্ডু","হিজড়া","পোঁদ", "খানকিচুদা", "খানকিমাগি", "খানকিরপোলা"
 ];
 
-const SPAM_THRESHOLD = 20;
-const SPAM_TIME_WINDOW = 1 * 60 * 1000; // 2 minutes
+const SPAM_THRESHOLD = 15;
+const SPAM_TIME_WINDOW = 1 * 60 * 1000; 
 
 let userMessages = {}; 
-let spamWarnings = {}; // warning state
+let spamWarnings = {}; 
 
 function isSenderAdmin(api, threadID, senderID) {
   return new Promise((resolve) => {
@@ -91,7 +91,6 @@ module.exports.handleEvent = async function ({ api, event }) {
     const now = Date.now();
     userMessages[threadID][senderID].push({ text: content, time: now });
 
-    // শুধুমাত্র শেষ 2 মিনিটের মেসেজ রাখবে
     userMessages[threadID][senderID] = userMessages[threadID][senderID].filter(m => (now - m.time) <= SPAM_TIME_WINDOW);
 
     const msgs = userMessages[threadID][senderID];
