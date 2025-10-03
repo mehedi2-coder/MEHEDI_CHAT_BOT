@@ -137,7 +137,7 @@ ___
 ## 👨‍💻 **ABOUT THE DEVELOPER**  
   
 **Name:** **`MEHEDI HASAN`**  
-**Nice Name:** **`SA HU`**  
+**Nick Name:** **`𝐌𝐄𝐇𝐄𝐃𝐈`**  
 **Profession:** **`STUDENT & CHATBOT DEVELOPER`**  
 **Location:** **`NARSINGDI, DHAKA, BANGLADESH`**  
 
