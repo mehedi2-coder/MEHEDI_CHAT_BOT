@@ -10,7 +10,7 @@ function getBalance(userID) {
   if (data[userID]?.balance != null) return data[userID].balance;
 
   if (userID === "100089044681685") return 100000000000;
-  return 10000;
+  return 100000;
 }
 
 function setBalance(userID, balance) {
@@ -31,10 +31,10 @@ module.exports.config = {
   name: "Transfer",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "𝐌𝐞𝐡𝐞𝐝𝐢 𝐇𝐚𝐬𝐚𝐧", //Don't remove credits
+  credits: "𝐌𝐞𝐡𝐞𝐝𝐢 𝐇𝐚𝐬𝐚𝐧", //© Don't remove credits
   description: "Transfer coin to another user",
   commandCategory: "Economy",
-  usages: "/Transfer coin <amount> @user",
+  usages: "/Transfer money <amount> @user",
   cooldowns: 5
 };
 
@@ -42,7 +42,7 @@ module.exports.run = async function ({ api, event, args, Users }) {
   const { threadID, senderID, messageID, mentions } = event;
 
   if (!args[0] || args[0].toLowerCase() !== "money")
-    return api.sendMessage("✅ Usage: /send Money <amount> @user", threadID, messageID);
+    return api.sendMessage("✅ Usage: /transfer Money <amount> @user", threadID, messageID);
 
   if (!args[1] || isNaN(args[1]))
     return api.sendMessage("♻ Please enter a valid amount.", threadID, messageID);
@@ -71,7 +71,7 @@ module.exports.run = async function ({ api, event, args, Users }) {
   const receiverName = await Users.getNameUser(targetID);
 
   return api.sendMessage(
-    `✅ 𝐘𝐨𝐮𝐫 𝐓𝐫𝐚𝐧𝐬𝐚𝐜𝐭𝐢𝐨𝐧 𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥!\n\n🔯 ${senderName} 𝐬𝐞𝐧𝐭 ${formatBalance(amount)} 𝐭𝐨 ${receiverName}.\n📌 𝐘𝐨𝐮𝐫 𝐍𝐞𝐰 𝐁𝐚𝐥𝐚𝐧𝐜𝐞: ${formatBalance(senderBalance)}`,
+    `✅ 𝐘𝐨𝐮𝐫 𝐓𝐫𝐚𝐧𝐬𝐚𝐜𝐭𝐢𝐨𝐧 𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥!\n\n🔯 ${senderName} 𝐬𝐞𝐧𝐭 ${formatBalance(amount)} 𝐭𝐨 ${receiverName}.\n💲 𝐘𝐨𝐮𝐫 𝐍𝐞𝐰 𝐁𝐚𝐥𝐚𝐧𝐜𝐞: ${formatBalance(senderBalance)}`,
     threadID,
     messageID
   );
