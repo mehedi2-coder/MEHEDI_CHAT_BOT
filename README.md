@@ -1,19 +1,19 @@
 ---------
 
-### —͟͟͞͞𝐒𝐇𝐀𝐇𝐀𝐃𝐀𝐓 𝐂𝐇𝐀𝐓 𝐁𝐎𝐓  𝐅𝐎𝐑𝐊  🌺
+### 𝐌𝐄𝐇𝐄𝐃𝐈 𝐂𝐇𝐀𝐓 𝐁𝐎𝐓 🌺
 
 ❖ **`A Messenger Multi Device Bot To Take Your Messenger To Another Level!`** 
 
 
 
 Assalamualaikum Everyone!  
-**Welcome to My SHAHADAT CHAT BOT Fork!**
+**Welcome to My MEHEDI CHAT BOT Fork!**
 
-![Box-shaped Image](https://i.imgur.com/u7VnPzH.png)
+![Box-shaped Image](https://i.imgur.com/0gd6tQ9.png)
 
 <p align="center" style="animation: glow 2s infinite alternate; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-  <span style="font-size: 24px; font-weight: bold;">SHAHADAT CHAT BOT</span><br>
-  <span> Develop By SHAHADAT SAHU</span>
+  <span style="font-size: 24px; font-weight: bold;">MEHEDI CHAT BOT</span><br>
+  <span> Develop By MEHEDI HASAN</span>
 </p>
 
 
@@ -136,15 +136,15 @@ ___
 
 ## 👨‍💻 **ABOUT THE DEVELOPER**  
   
-**Name:** **`SHAHADAT ISLAM`**  
+**Name:** **`MEHEDI HASAN`**  
 **Nice Name:** **`SA HU`**  
 **Profession:** **`STUDENT & CHATBOT DEVELOPER`**  
-**Location:** **`KHAGRACHARI, BANGLADESH`**  
+**Location:** **`NARSINGDI, DHAKA, BANGLADESH`**  
 
 ### 📞 **CONTACT INFORMATION**  
-- **WhatsApp:** **[01882 333052](https://wa.me/+8801882333052)**  
-- **Facebook:** **[Facebook ID](https://facebook.com/100001039692046)**  
-- **Messenger:** **[Message](https://m.me/100001039692046)**  
+- **WhatsApp:** **[01957837541](https://wa.me/+8801957837541)**  
+- **Facebook:** **[Facebook ID](https://facebook.com/100089044681685)**  
+- **Messenger:** **[Message](https://m.me/100089044681685)**  
 
 ### 🚀 **DEVELOPMENT APPROACH**  
 - 💻 **Copy-paste techniques with customizations**  
@@ -165,10 +165,10 @@ If you need any help, you can contact the admin.
 Please do not disturb the admin unless you have a special need. Thank you! 
 
 <p align="center">
-  <a href="https://wa.me/+8801882333052?text=Assalamualaikum%20Admin%20SHAHADAT%20SAHU%20Need%20Help%20Please%20Brother%20🫶">
+  <a href="https://wa.me/+8801957837541?text=Assalamualaikum%20Admin%20MEHEDI%20HASAN%20Need%20Help%20Please%20Brother%20🫶">
     <img alt="WhatsApp" src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white">
   </a>
-  <a href="https://m.me/100001039692046">
+  <a href="https://m.me/100089044681685">
     <img alt="Messenger" src="https://img.shields.io/badge/Messenger-00B2FF?style=for-the-badge&logo=messenger&logoColor=white">
   </a>
 </p>
@@ -184,7 +184,7 @@ Please do not disturb the admin unless you have a special need. Thank you!
 
 ---
 
-💖 **Thank You For Choosing 𝗦𝗵𝗮𝗵𝗮𝗱𝗮𝘁 𝗖𝗵𝗮𝘁 𝗕𝗼𝘁!**  
+💖 **Thank You For Choosing 𝐌𝐄𝐇𝐄𝐃𝐈 𝐂𝐇𝐀𝐓 𝐁𝐎𝐓!**  
 🗓️ *Release Date:* `11/08/2025 at 02:00`  
 ⭐ **Please don't forget to give a star after forking! It really helps!**
 
@@ -196,8 +196,8 @@ Please do not disturb the admin unless you have a special need. Thank you!
 
 <p align="center">
   <a href="https://github.com/shahadat-sahu"><img src="https://img.icons8.com/fluency/48/000000/github.png" alt="GitHub"></a>
-  <a href="https://wa.me/+8801882333052"><img src="https://img.icons8.com/color/48/000000/whatsapp.png" alt="WhatsApp"></a>
-  <a href="https://facebook.com/100001039692046"><img src="https://img.icons8.com/fluency/48/000000/facebook.png" alt="Facebook"></a>
+  <a href="https://wa.me/+8801957837541"><img src="https://img.icons8.com/color/48/000000/whatsapp.png" alt="WhatsApp"></a>
+  <a href="https://facebook.com/100089044681685"><img src="https://img.icons8.com/fluency/48/000000/facebook.png" alt="Facebook"></a>
   <a href="https://t.me/+8EtzLXVG-REwYTM1"><img src="https://img.icons8.com/color/48/000000/telegram-app.png" alt="Telegram"></a>
   <a href="https://youtube.com/@cyberbotcommunity"><img src="https://img.icons8.com/color/48/000000/youtube-play.png" alt="YouTube"></a>
 </p>
