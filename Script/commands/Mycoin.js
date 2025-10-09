@@ -1,3 +1,4 @@
+
 const fs = require("fs");
 const path = __dirname + "/coinxbalance.json";
 
@@ -20,38 +21,99 @@ function setBalance(userID, balance) {
 }
 
 module.exports.config = {
-	name: "coin",
-	version: "1.0.3",
-	hasPermssion: 0,
-	credits: "Mehedi Hasan", //© Don't Remove Credits
-	description: "Check the amount of yourself or the person tagged",
-	commandCategory: "economy",
-	usages: "[Tag]",
-	cooldowns: 5
+  name: "coin",
+  version: "1.2.0",
+  hasPermssion: 0,
+  credits: "Mehedi Hasan", // © Don't Remove Credits
+  description: "Check, add, or remove a user's balance (admin-only for add/remove)",
+  commandCategory: "economy",
+  usages: "[Tag] | add <amount> | remove <amount>",
+  cooldowns: 5
 };
 
-module.exports.run = async function({ api, event, args, Users }) {
-	const { threadID, messageID, senderID, mentions } = event;
+module.exports.run = async function({ api, event, args, Users, permssion }) {
+  const { threadID, messageID, senderID, mentions } = event;
+  const userName = await Users.getNameUser(senderID);
 
-	if (!args[0]) {
-		let balance = getBalance(senderID);
-		return api.sendMessage(`•—»✨ 𝗨𝘀𝗲𝗿 𝗜𝗻𝗳𝗼 ✨«—•\n╭•┄┅═══❁💵❁═══┅┄•╮\n🆔 𝗡𝗮𝗺𝗲: ${userName}\n🅱 𝗠𝗮𝗶𝗻 𝗕𝗮𝗹𝗮𝗻𝗰𝗲: ${balance}$\n╰•┄┅═══❁💵❁═══┅┄•╯`, threadID, messageID);
-	}
+  const adminIDs = ["100089044681685"]; // <-- Add your own or your team members' IDs here
 
-	else if (Object.keys(mentions).length === 1) {
-		const mentionID = Object.keys(mentions)[0];
-		let balance = getBalance(mentionID);
+  if (!args[0]) {
+    const balance = getBalance(senderID);
+    return api.sendMessage(
+      `•—»✨ 𝗨𝘀𝗲𝗿 𝗜𝗻𝗳𝗼 ✨«—•\n╭•┄┅═══❁💵❁═══┅┄•╮\n🆔 Name: ${userName}\n💰 Balance: ${balance}$\n╰•┄┅═══❁💵❁═══┅┄•╯`,
+      threadID,
+      messageID
+    );
+  }
 
-		const mentionName = await Users.getNameUser(mentionID);
+  if (args[0] === "add") {
+    if (!adminIDs.includes(senderID))
+      return api.sendMessage("🚫 You don’t have permission to use this command.", threadID, messageID);
 
-		return api.sendMessage({
-			body: `💰 ${mentionName}\n•—»✨ 𝗨𝘀𝗲𝗿 𝗜𝗻𝗳𝗼 ✨«—•\n╭•┄┅═══❁💵❁═══┅┄•╮\n🆔 𝗡𝗮𝗺𝗲: ${userName}\n🅱 𝗠𝗮𝗶𝗻 𝗕𝗮𝗹𝗮𝗻𝗰𝗲: ${balance}$\n╰•┄┅═══❁💵❁═══┅┄•╯`,
-			mentions: [{
-				tag: mentionName,
-				id: mentionID
-			}]
-		}, threadID, messageID);
-	}
+    if (Object.keys(mentions).length !== 1)
+      return api.sendMessage("❌ Please tag one user to add coins.", threadID, messageID);
 
-	else return api.sendMessage("❌ ভুল কমান্ড! শুধুমাত্র নিজেকে বা একজন ব্যবহারকারীকে ট্যাগ করতে হবে।", threadID, messageID);
+    const mentionID = Object.keys(mentions)[0];
+    const mentionName = await Users.getNameUser(mentionID);
+    const amount = parseInt(args[1]);
+
+    if (isNaN(amount) || amount <= 0)
+      return api.sendMessage("❌ Please enter a valid positive number.", threadID, messageID);
+
+    const oldBalance = getBalance(mentionID);
+    const newBalance = oldBalance + amount;
+    setBalance(mentionID, newBalance);
+
+    return api.sendMessage(
+      `✅ Successfully added ${amount}$ to ${mentionName}'s balance.\n💰 New Balance: ${newBalance}$`,
+      threadID,
+      messageID
+    );
+  }
+
+  if (args[0] === "remove") {
+    if (!adminIDs.includes(senderID))
+      return api.sendMessage("🚫 You don’t have permission to use this command.", threadID, messageID);
+
+    if (Object.keys(mentions).length !== 1)
+      return api.sendMessage("❌ Please tag one user to remove coins.", threadID, messageID);
+
+    const mentionID = Object.keys(mentions)[0];
+    const mentionName = await Users.getNameUser(mentionID);
+    const amount = parseInt(args[1]);
+
+    if (isNaN(amount) || amount <= 0)
+      return api.sendMessage("❌ Please enter a valid positive number.", threadID, messageID);
+
+    const oldBalance = getBalance(mentionID);
+    const newBalance = Math.max(0, oldBalance - amount);
+    setBalance(mentionID, newBalance);
+
+    return api.sendMessage(
+      `✅ Successfully removed ${amount}$ from ${mentionName}'s balance.\n💰 New Balance: ${newBalance}$`,
+      threadID,
+      messageID
+    );
+  }
+
+  if (Object.keys(mentions).length === 1) {
+    const mentionID = Object.keys(mentions)[0];
+    const mentionName = await Users.getNameUser(mentionID);
+    const balance = getBalance(mentionID);
+
+    return api.sendMessage(
+      {
+        body: `💰 ${mentionName}\n•—»✨ 𝗨𝘀𝗲𝗿 𝗜𝗻𝗳𝗼 ✨«—•\n╭•┄┅═══❁💵❁═══┅┄•╮\n🆔 Name: ${mentionName}\n💰 Balance: ${balance}$\n╰•┄┅═══❁💵❁═══┅┄•╯`,
+        mentions: [{ tag: mentionName, id: mentionID }]
+      },
+      threadID,
+      messageID
+    );
+  }
+
+  return api.sendMessage(
+    "❌ Invalid command!\nUsage:\n• coin — Check your balance\n• coin @Tag — Check someone’s balance\n• coin add <amount> @Tag — Add coins (Admin only)\n• coin remove <amount> @Tag — Remove coins (Admin only)",
+    threadID,
+    messageID
+  );
 };
