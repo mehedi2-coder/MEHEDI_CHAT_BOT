@@ -13,7 +13,7 @@ function getBalance(userID) {
 
 function setBalance(userID, balance) {
   const data = JSON.parse(fs.readFileSync(path, "utf8"));
-  data[userID] = Object.assign(data[userID] || {}, { balance: balance });
+  data[userID] = Object.assign(data[userID] || {}, { balance });
   fs.writeFileSync(path, JSON.stringify(data, null, 2));
 }
 
@@ -27,40 +27,38 @@ function formatBalance(num) {
 
 module.exports.config = {
   name: "spin",
-  version: "1.1.0",
+  version: "1.2.0",
   hasPermssion: 0,
-  credits: "Mehedi Hasan", //© Don't Remove Credits
-  description: "Spin Game with multipliers & X (uses main balance)",
+  credits: "Mehedi Hasan", // © Don't Remove Credits
+  description: "Spin game with random multipliers (uses main balance)",
   commandCategory: "game",
   usages: "/spin [bet]",
   cooldowns: 5
 };
 
-module.exports.run = async function({ api, event, args, Users }) {
+module.exports.run = async function ({ api, event, args, Users }) {
   const { senderID, threadID, messageID } = event;
   const bet = parseInt(args[0]);
+  const userName = (await Users.getNameUser(senderID)) || "Player";
 
+  // 🧮 Validate bet
   if (isNaN(bet) || bet <= 0) {
     return api.sendMessage("⚠️ Please enter a valid bet. Example: /spin 1000", threadID, messageID);
   }
 
   let balance = getBalance(senderID);
-
   if (balance < bet) {
     return api.sendMessage(`🚫 Not enough balance! Your balance: ${formatBalance(balance)}`, threadID, messageID);
   }
 
+  // 🎰 3x3 Spin Grid
   const cells = [
-    `╔════════════════╗
-    ║🎰 3x3 Spin Grid 🎰║
-    ╠════════════════╣
-    ║ 6x |  3x  | 6x   ║
-    ║ X  |  20x | 0x   ║
-    ║ 8x |  3x  | 8X   ║
-    ╚════════════════╝`
-
+    ["6x", "3x", "6x"],
+    ["X", "20x", "0x"],
+    ["8x", "3x", "8x"]
   ];
 
+  // Random spin
   const row = Math.floor(Math.random() * 3);
   const col = Math.floor(Math.random() * 3);
   const resultCell = cells[row][col];
@@ -68,40 +66,39 @@ module.exports.run = async function({ api, event, args, Users }) {
   let winnings = 0;
   let outcome = "";
 
+  // 💥 Determine result
   if (resultCell === "X") {
-    
     winnings = -bet;
-    outcome = "💸 You hit X! You lost your bet.";
+    outcome = "💸 You hit ❌ X! You lost your bet.";
   } else if (resultCell === "0x") {
-   
     winnings = 0;
-    outcome = "😐 0x — nothing happened. Try again!";
+    outcome = "😐 You hit 0x — nothing happened. Try again!";
   } else {
-    
-    const m = parseInt(resultCell); 
-    if (!isNaN(m) && m > 0) {
-      winnings = bet * m;
-      outcome = `🎉 You hit ${m}x! You won ${formatBalance(winnings)}.`;
+    const multiplier = parseInt(resultCell);
+    if (!isNaN(multiplier) && multiplier > 0) {
+      winnings = bet * multiplier - bet; // net profit (win minus bet)
+      outcome = `🎉 You hit ${multiplier}x! You won ${formatBalance(winnings)}!`;
     } else {
-      
-      winnings = 0;
-      outcome = "😐 Nothing happened (unexpected cell).";
+      outcome = "😕 Unexpected spin result!";
     }
   }
 
   const newBalance = balance + winnings;
   setBalance(senderID, newBalance);
 
-  let gridDisplay = "";
+  // 🧩 Create grid display
+  let gridDisplay = "╔════════════════╗\n║🎰  3x3 Spin Grid  🎰║\n╠════════════════╣\n";
   for (let r = 0; r < 3; r++) {
+    let rowDisplay = "";
     for (let c = 0; c < 3; c++) {
-      if (r === row && c === col) gridDisplay += ` [${cells[r][c]}] `;
-      else gridDisplay += `  ${cells[r][c]}  `;
+      if (r === row && c === col) rowDisplay += ` [${cells[r][c]}] `;
+      else rowDisplay += `  ${cells[r][c]}  `;
     }
-    gridDisplay += "\n";
-}
-  const userName = (await Users.getNameUser(senderID)) || "Player";
-  const message = `${gridDisplay}\n${outcome}\n💲 Your New Balance: ${formatBalance(newBalance)}`;
+    gridDisplay += `║${rowDisplay}║\n`;
+  }
+  gridDisplay += "╚════════════════╝";
+
+  const message = `${gridDisplay}\n\n👤 Player: ${userName}\n${outcome}\n💰 New Balance: ${formatBalance(newBalance)}`;
 
   return api.sendMessage(message, threadID, messageID);
 };
