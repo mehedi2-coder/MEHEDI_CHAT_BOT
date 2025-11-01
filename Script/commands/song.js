@@ -2,7 +2,7 @@ const axios = require("axios");
 const fs = require('fs')
 const baseApiUrl = async () => {
   const base = await axios.get(
-`https://raw.githubusercontent.com/cyber-ullash/cyber-ullash/refs/heads/main/UllashApi.json`,
+`https://raw.githubusercontent.com/Mostakim0978/D1PT0/refs/heads/main/baseApiUrl.json`,
   );
   return base.data.api;
 };
@@ -14,7 +14,10 @@ module.exports.config = {
     countDown: 5,
     hasPermssion: 0,
     description: "Download audio from YouTube",
+    category: "media",
     commandCategory: "media",
+    usePrefix: true,
+    prefix: true,
     usages: "{pn} [<song name>|<song link>]:"+ "\n   Example:"+"\n{pn} chipi chipi chapa chapa"
   }
   module.exports.run = async ({api,args, event,commandName, message }) =>{
@@ -91,7 +94,7 @@ async function dipto(url,pathName) {
     const response = (await axios.get(url,{
       responseType: "arraybuffer"
     })).data;
- 
+
     fs.writeFileSync(pathName, Buffer.from(response));
     return fs.createReadStream(pathName);
   }
@@ -110,4 +113,4 @@ async function diptoSt(url,pathName) {
   catch (err) {
     throw err;
   }
-       }
+  }
